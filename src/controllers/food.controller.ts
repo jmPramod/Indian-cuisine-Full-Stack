@@ -86,9 +86,13 @@ const filterProduct=async (req: Request, res: Response, next: NextFunction) => {
     if (!foodmenu.length) {
       return next(createError(404, "No matching food recipes found."));
     }
+console.log("filter",filter);
 
-    const totalItems = await FoodSchema.countDocuments({ filter });
+    const totalItems = await FoodSchema.countDocuments( filter );
+    
     const totalPages = Math.ceil(totalItems / limit);
+    console.log("totalItems",totalItems,totalItems / limit,limit);
+    
     const info = { page, totalPages, totalItems };
     res.json({
       data:{ data:foodmenu,info},
