@@ -50,8 +50,11 @@ const getAllCommonFood = async (
     if (!foodmenu) {
       return next(createError(401, "No Food Recipe Avlaible"));
     }
+    const totalItems = await FoodSchema.countDocuments();
+    const totalPages = Math.ceil(totalItems / limit);
+    const info = { page, totalPages, totalItems };
     res.json({
-      data: foodmenu,
+      data: {data:foodmenu,info},
       status: 200,
       message: "Food Fetched Successfully.",
       error: null,
@@ -84,8 +87,11 @@ const filterProduct=async (req: Request, res: Response, next: NextFunction) => {
       return next(createError(404, "No matching food recipes found."));
     }
 
+    const totalItems = await FoodSchema.countDocuments({ filter });
+    const totalPages = Math.ceil(totalItems / limit);
+    const info = { page, totalPages, totalItems };
     res.json({
-      data: foodmenu,
+      data:{ data:foodmenu,info},
       status: 200,
       message: "Food filtered successfully.",
       error: null,
