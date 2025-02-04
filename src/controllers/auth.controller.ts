@@ -9,6 +9,8 @@ import createError from "../middlewears/error.middlewear";
 import { RegisterSchemaValidation } from "../validations/validations";
 import { envFiles } from "../helper/helper";
 envFiles();
+import dotenv from "dotenv";
+dotenv.config();
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const emailExist = await Auth.findOne({

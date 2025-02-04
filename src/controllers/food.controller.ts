@@ -7,7 +7,9 @@ import {
   FoodSchemaValidation,
 } from "../validations/validations";
 import { envFiles } from "../helper/helper";
-envFiles();
+// envFiles();
+import dotenv from "dotenv";
+dotenv.config();
 const createCommonFood = async (
   req: Request,
   res: Response,

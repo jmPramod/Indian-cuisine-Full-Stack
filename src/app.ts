@@ -9,8 +9,10 @@ import { errorHandler } from "./middlewears/global.middlewear";
 import { authRoute } from "./routes/auth.routes";
 import cookies from 'cookie-parser'
 import { foodRoute } from "./routes/food.routes";
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
-envFiles();
+// envFiles();
 const runServer = async () => {
   //--------------- middlewear--------------------
   app.use(cors({ origin: "*", credentials: true })); // cors middlewear
