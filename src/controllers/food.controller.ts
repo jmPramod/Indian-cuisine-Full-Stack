@@ -109,9 +109,27 @@ const getDistinctFilters = async (req: Request, res: Response, next: NextFunctio
     const distinctFields = ["region", "state", "course", "flavor_profile", "diet"];
     const filterOptions: any = {};
 
+    // Fetch distinct values for predefined fields
     for (const field of distinctFields) {
       filterOptions[field] = await FoodSchema.distinct(field);
     }
+
+    // Fetch all ingredients and extract unique values
+    const allIngredients = await FoodSchema.distinct("ingredients");
+    const uniqueIngredients = new Set<string>();
+
+    allIngredients.forEach((ingredientList: string) => {
+      ingredientList.split(",").forEach((ingredient) => {
+        // Normalize the ingredient name
+        let normalized = ingredient.trim().toLowerCase();
+        normalized = normalized.replace(/\s+/g, " "); // Remove extra spaces
+        normalized = normalized.replace(/[^a-zA-Z0-9\s]/g, ""); // Remove special characters
+
+        uniqueIngredients.add(normalized);
+      });
+    });
+
+    filterOptions.ingredients = Array.from(uniqueIngredients);
 
     res.json({
       data: filterOptions,
