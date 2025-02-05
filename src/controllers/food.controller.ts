@@ -63,47 +63,57 @@ const getAllCommonFood = async (
     next(error);
   }
 };
-const filterProduct=async (req: Request, res: Response, next: NextFunction) => {
-  try {
-        const { region, state, course, flavor_profile, diet } = req.query;
-        const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    
-    const filter: any = {};
 
-   
+
+
+const filterProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { region, state, course, flavor_profile, diet, ingredients } = req.query;
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 10;
+
+    const filter: { [key: string]: any } = {}; // Type for the filter object
+
+    // Construct the filter object based on query parameters
     if (region) filter.region = { $regex: new RegExp(region as string, "i") };
     if (state) filter.state = { $regex: new RegExp(state as string, "i") };
     if (course) filter.course = { $regex: new RegExp(course as string, "i") };
     if (flavor_profile) filter.flavor_profile = { $regex: new RegExp(flavor_profile as string, "i") };
     if (diet) filter.diet = { $regex: new RegExp(diet as string, "i") };
 
+    // Ingredient filter logic
+    if (ingredients && typeof ingredients === 'string') {
+      // Split the ingredients query into an array of individual ingredients
+      const ingredientList: string[] = ingredients.split(',').map((ingredient) => ingredient.trim());
+      // The $all operator ensures the recipe includes all the ingredients
+      filter.ingredients = { $all: ingredientList.map((ingredient) => new RegExp(ingredient, "i")) };
+    }
 
-    // Fetch filtered food data
-    const foodmenu = await FoodSchema.find(filter).skip((page - 1) * limit)
-    .limit(limit);
+    // Fetch filtered food data from the database
+    const foodmenu = await FoodSchema.find(filter)
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     if (!foodmenu.length) {
       return next(createError(404, "No matching food recipes found."));
     }
-console.log("filter",filter);
 
-    const totalItems = await FoodSchema.countDocuments( filter );
-    
+    const totalItems = await FoodSchema.countDocuments(filter);
     const totalPages = Math.ceil(totalItems / limit);
-    console.log("totalItems",totalItems,totalItems / limit,limit);
-    
+
     const info = { page, totalPages, totalItems };
     res.json({
-      data:{ data:foodmenu,info},
+      data: { data: foodmenu, info },
       status: 200,
       message: "Food filtered successfully.",
       error: null,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+
 const getDistinctFilters = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const distinctFields = ["region", "state", "course", "flavor_profile", "diet"];
