@@ -112,6 +112,46 @@ const filterProduct = async (req: Request, res: Response, next: NextFunction): P
     next(error);
   }
 };
+const searchProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { text } = req.query;
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 10;
+  // Fetch filtered food data from the database
+  if(!text){
+    return next(createError(404, "No matching food recipes found."));
+   
+  }
+  const filter ={
+    $or: [
+      { name: { $regex: text, $options: "i" } }, // Case-insensitive search in 'name'
+      { ingredients: { $elemMatch: { $regex: text, $options: "i" } } }, // Search in 'ingredients' array
+      { state: { $regex: text, $options: "i" } }, // Search in 'state'
+      { region: { $regex: text, $options: "i" } } // Search in 'region'
+    ]
+  }
+  const foodmenu = await FoodSchema.find(filter).skip((page - 1) * limit)
+  .limit(limit);
+;
+
+    if (!foodmenu.length) {
+      return next(createError(404, "No matching food recipes found."));
+    }
+
+    const totalItems = await FoodSchema.countDocuments(filter);
+    const totalPages = Math.ceil(totalItems / limit);
+
+    const info = { page, totalPages, totalItems };
+    res.json({
+      data: { data: foodmenu, info },
+      status: 200,
+      message: "Food Searched successfully.",
+      error: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 const getDistinctFilters = async (req: Request, res: Response, next: NextFunction) => {
@@ -178,4 +218,4 @@ const getProductById = async (req: Request, res: Response, next: NextFunction) =
   }
 };
 
-export { createCommonFood, getAllCommonFood ,filterProduct,getDistinctFilters,getProductById};
+export { searchProduct,createCommonFood, getAllCommonFood ,filterProduct,getDistinctFilters,getProductById};
