@@ -13,11 +13,11 @@ export const RegisterSchemaValidation = Joi.object({
   }),
   address: Joi.string().allow(null, "").optional(),
   state: Joi.string().allow(null, "").optional(),
-  country: Joi.string().required().messages({
+  country: Joi.string().messages({
     "any.required": "Country is required.",
     "string.empty": "Country cannot be empty.",
   }),
-  pinCode: Joi.number().required().messages({
+  pinCode: Joi.number().messages({
     "any.required": "Pin code is required.",
     "number.base": "Pin code must be a number.",
     "number.empty": "Pin code cannot be empty.",
