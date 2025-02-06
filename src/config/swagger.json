@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Banking API Documentation",
-    "description": "API documentation for banking operations and note management",
+    "title": "Food API Documentation",
+    "description": "API documentation for Food Api",
     "version": "1.0.0"
   },
   "servers": [
@@ -11,7 +11,7 @@
       "description": "Local server"
     },
     {
-      "url": "https://production-api.example.com",
+      "url": "https://indian-cuisine.vercel.app",
       "description": "Production server"
     }
   ],
