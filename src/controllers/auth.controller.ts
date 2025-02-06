@@ -4,7 +4,7 @@ import { ValidationError } from "joi";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Auth from "../models/auth.schema";
-
+import FoodSchema from "./../models/food.schema";
 import createError from "../middlewears/error.middlewear";
 import { RegisterSchemaValidation } from "../validations/validations";
 import { envFiles } from "../helper/helper";
@@ -55,7 +55,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
         token: token,
         user: savedUser,
       },
-      status: 201,
+      status: 200,
       message: "New User created",
       error: null,
     });
@@ -64,6 +64,40 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const favoriteFood = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params;
+    const { favoriteUserId, action } = req.body;
+
+    // Find the user by ID
+    const user: any = await Auth.findById(userId);
+
+    if (!user) {
+      return next(createError(401, "This User Doesn't Exist"));
+    }
+
+    if (action === 'add') {
+      // Check if the favoriteUserId is not already in the favorites list
+      if (!user.favorite.includes(favoriteUserId)) {
+        user.favorite.push(favoriteUserId);
+        await user.save();
+      }
+    } else if (action === 'remove') {
+        user.favorite = user.favorite.filter((id: any) => id.toString() !== favoriteUserId.toString());
+      await user.save();
+    }
+
+    res.json({
+      data: user,
+      status: 200,
+      message: "User updated successfully",
+      error: null,
+    });
+  } catch (error) {
+    console.error("Error in favoriteFood:", error); // Log the error for debugging
+    next(error);
+  }
+};
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
@@ -108,4 +142,4 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 };
-export { register, login, updateUser };
+export { register, login, updateUser ,favoriteFood};
