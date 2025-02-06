@@ -21,23 +21,83 @@
       "description": "Endpoints for user authentication"
     },
     {
-      "name": "Notes",
-      "description": "Endpoints for managing notes"
+      "name": "Food",
+      "description": "Endpoints for managing food items"
     }
   ],
   "paths": {
-    "/register": {
+    "/login": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "User registration",
-        "description": "Creates a new user account with the provided details.",
+        "summary": "User login",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterUser"
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["email", "password"]
               }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string" },
+                    "user": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update-user": {
+      "patch": {
+        "tags": ["Authentication"],
+        "summary": "Update user details",
+        "security": [{ "JWTAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" }
             }
           }
         },
@@ -46,23 +106,163 @@
             "description": "User created successfully",
             "content": {
               "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorite/{userId}": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Add food to favorites",
+        "security": [{ "JWTAuth": [] }],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "foodId": { "type": "string" }
+                },
+                "required": ["foodId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Food added to favorites",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get-common-food": {
+      "get": {
+        "tags": ["Food"],
+        "summary": "Get all common food items",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "default": 10 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of food items",
+            "content": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegisterUser"
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Food" }
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/get-single-food/{id}": {
+      "get": {
+        "tags": ["Food"],
+        "summary": "Get single food item by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food item details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Food" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/filter-product": {
+      "get": {
+        "tags": ["Food"],
+        "summary": "Filter food items",
+        "parameters": [
+          {
+            "name": "diet",
+            "in": "query",
+            "schema": { "type": "string" }
           },
-          "401": {
-            "description": "User already exists or validation error",
+          {
+            "name": "course",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "flavor_profile",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Filtered food items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Food" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get-category": {
+      "get": {
+        "tags": ["Food"],
+        "summary": "Get distinct filter categories",
+        "responses": {
+          "200": {
+            "description": "Distinct filter values",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "Success": { "type": "boolean", "example": true },
-                    "status": { "type": "integer", "example": 201 },
-                    "message": { "type": "string", "example": "New User created" },
-                    "data": { "$ref": "#/components/schemas/RegisterUser" }
+                    "diets": { "type": "array", "items": { "type": "string" } },
+                    "courses": { "type": "array", "items": { "type": "string" } },
+                    "flavorProfiles": { "type": "array", "items": { "type": "string" } },
+                    "states": { "type": "array", "items": { "type": "string" } }
                   }
                 }
               }
@@ -71,51 +271,52 @@
         }
       }
     },
-    "/login": {
+    "/search-food": {
+      "get": {
+        "tags": ["Food"],
+        "summary": "Search food items by name",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Food" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create-common-food": {
       "post": {
-        "tags": ["Authentication"],
-        "summary": "User login",
-        "description": "Authenticates a user with the provided credentials (username and password).",
+        "tags": ["Food"],
+        "summary": "Create new food item (Admin only)",
+        "security": [{ "JWTAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginUser"
-              }
+              "schema": { "$ref": "#/components/schemas/Food" }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "User logged in successfully",
+          "201": {
+            "description": "Food item created",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string",
-                      "example": "JWT_TOKEN_STRING"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid credentials",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid username or password"
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/Food" }
               }
             }
           }
@@ -124,39 +325,89 @@
     }
   },
   "components": {
-    "schemas": {
-      "Note": {
-        "type": "object",
-        "properties": {
-          "subject": { "type": "string", "example": "Math" },
-          "question": { "type": "string", "example": "What is the derivative of x^2?" },
-          "answer": { "type": "string", "example": "2x" },
-          "category": { "type": "string", "example": "Calculus" },
-          "createdAt": { "type": "string", "format": "date-time", "example": "2024-11-30T10:00:00Z" },
-          "updatedAt": { "type": "string", "format": "date-time", "example": "2024-11-30T10:00:00Z" }
-        }
-      },
-      "RegisterUser": {
-        "type": "object",
-        "properties": {
-          "username": { "type": "string", "example": "john_doe" },
-          "password": { "type": "string", "example": "securepassword" }
-        }
-      },
-      "LoginUser": {
-        "type": "object",
-        "properties": {
-          "email": { "type": "string", "example": "john_doe" },
-          "password": { "type": "string", "example": "securepassword" }
-        }
-      }
-    },
     "securitySchemes": {
       "JWTAuth": {
         "type": "apiKey",
         "name": "Authorization",
         "in": "header",
         "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer <token>\""
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string" },
+          "phone": { "type": "integer" },
+          "address": { "type": "string" },
+          "state": { "type": "string" },
+          "country": { "type": "string" },
+          "pinCode": { "type": "integer" },
+          "isAdmin": { 
+            "type": "string",
+            "enum": ["admin", "user"],
+            "default": "user"
+          },
+          "profileImage": {
+            "type": "object",
+            "properties": {
+              "imageUrl": { "type": "string" },
+              "imgPublicId": { "type": "string" }
+            }
+          },
+          "favorite": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "phone": { "type": "integer" },
+          "address": { "type": "string" },
+          "state": { "type": "string" },
+          "country": { "type": "string" },
+          "pinCode": { "type": "integer" },
+          "profileImage": {
+            "type": "object",
+            "properties": {
+              "imageUrl": { "type": "string" },
+              "imgPublicId": { "type": "string" }
+            }
+          }
+        }
+      },
+      "Food": {
+        "type": "object",
+        "required": [
+          "name",
+          "ingredients",
+          "diet",
+          "prep_time",
+          "cook_time",
+          "flavor_profile",
+          "course",
+          "state",
+          "region"
+        ],
+        "properties": {
+          "name": { "type": "string" },
+          "ingredients": { "type": "array", "items": { "type": "string" } },
+          "diet": { "type": "string" },
+          "prep_time": { "type": "integer" },
+          "cook_time": { "type": "integer" },
+          "flavor_profile": { "type": "string" },
+          "course": { "type": "string" },
+          "state": { "type": "string" },
+          "region": { "type": "string" },
+          "img": { "type": "string" },
+          "createdBy": { "type": "string" }
+        }
       }
     }
   }
