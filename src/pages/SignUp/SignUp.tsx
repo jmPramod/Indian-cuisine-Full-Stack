@@ -5,6 +5,9 @@ import * as Yup from 'yup';
 import { styles } from "./styles";
 
 import { motion } from "framer-motion";
+import { userRegister } from '../../utils/API.services';
+import { GlobalContext } from '../../Context/GlobalContext';
+import { ToastMsg } from '../../components/ToastMsg/ToastMsg';
 
 // Define Form Data Type
 interface FormData {
@@ -30,7 +33,9 @@ const validationSchema = Yup.object({
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
-
+ const { setUser } = React.useContext(GlobalContext);
+ const [error, setError] = useState<string | null|undefined>(null);
+ 
 const[loading,setLoading]=useState(false)  // Initialize Formik
   const formik = useFormik<FormData>({
     initialValues: {
@@ -41,11 +46,28 @@ const[loading,setLoading]=useState(false)  // Initialize Formik
       confirmPassword: "",
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async(values) => {
       setLoading(true)
+      
+      const { confirmPassword, ...data } = values;
+
       console.log("Form submitted successfully", values);
+      const res=await userRegister(data)
       // Redirect to login page or make API request
-      // navigate("/login");
+      if (res && res.status === 200 && res.data?.token) {
+        console.log("User logged in:", res.data);
+        setUser(res.data.user)
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user)); // Convert object to string
+        localStorage.setItem("userType", res.data.user.isAdmin); // Store user type separately
+      
+        navigate("/");
+      }
+      else {
+        setError( res?.error);
+      }
+      setLoading(false)
+      // navigate("/");
     },
   });
   const containerVariants = {
@@ -164,6 +186,8 @@ const[loading,setLoading]=useState(false)  // Initialize Formik
         <styles.image src='one.png' />
       </styles.leftContainer>
     </styles.outerContainer>
+    <ToastMsg  message={error||""} intent="error"/>
+    
       </motion.div>
   );
 };

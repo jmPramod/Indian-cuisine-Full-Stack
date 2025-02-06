@@ -12,11 +12,123 @@ export const searchFood = async (props: { query: string }) => {
       message: res.data?.message,
       status: res.data?.status,
     };
-  } catch (error) {}
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response
+        ? error.response.data.message
+        : "An error occurred";
+      const errorMsg = error.response
+        ? error.response.data.error
+        : "An error occurred";
+
+      const status = error.response ? error.response.status : "N/A";
+
+      return {
+        data: null,
+        error: errorMsg,
+        message,
+        status,
+      };
+    } else {
+      console.error("Error:", error);
+      return {
+        data: null,
+        error: "Something went wrong",
+        message: "An unexpected error occurred",
+        status: 500,
+      };
+    }
+  }
 };
 export const userLogin = async (payload: any) => {
   try {
     const res = await axios.post(`${apiUrl}/login`, payload);
+    console.log("res", res);
+    return {
+      data: res.data?.data,
+      error: res.data?.error,
+      message: res.data?.message,
+      status: res.data?.status,
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response
+        ? error.response.data.message
+        : "An error occurred";
+      const errorMsg = error.response
+        ? error.response.data.error
+        : "An error occurred";
+
+      const status = error.response ? error.response.status : "N/A";
+
+      return {
+        data: null,
+        error: errorMsg,
+        message,
+        status,
+      };
+    } else {
+      console.error("Error:", error);
+      return {
+        data: null,
+        error: "Something went wrong",
+        message: "An unexpected error occurred",
+        status: 500,
+      };
+    }
+  }
+};
+export const userRegister = async (payload: any) => {
+  try {
+    const res = await axios.post(`${apiUrl}/register`, payload);
+    console.log("res", res);
+    return {
+      data: res.data?.data,
+      error: res.data?.error,
+      message: res.data?.message,
+      status: res.data?.status,
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response
+        ? error.response.data.message
+        : "An error occurred";
+      const errorMsg = error.response
+        ? error.response.data.error
+        : "An error occurred";
+
+      const status = error.response ? error.response.status : "N/A";
+
+      return {
+        data: null,
+        error: errorMsg,
+        message,
+        status,
+      };
+    } else {
+      console.error("Error:", error);
+      return {
+        data: null,
+        error: "Something went wrong",
+        message: "An unexpected error occurred",
+        status: 500,
+      };
+    }
+  }
+};
+export const createFood = async (payload: any) => {
+  try {
+    const token1 = localStorage.getItem('token');
+    let token;
+    if (token1) {
+      token = JSON.parse(token1);
+    }
+    const res = await axios.post(`${apiUrl}/create-common-food`,  payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     console.log("res", res);
     return {
       data: res.data?.data,
@@ -62,7 +174,33 @@ export const searchSingleFood = async (props: { query: string }) => {
       message: res.data?.message,
       status: res.data?.status,
     };
-  } catch (error) {}
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response
+        ? error.response.data.message
+        : "An error occurred";
+      const errorMsg = error.response
+        ? error.response.data.error
+        : "An error occurred";
+
+      const status = error.response ? error.response.status : "N/A";
+
+      return {
+        data: null,
+        error: errorMsg,
+        message,
+        status,
+      };
+    } else {
+      console.error("Error:", error);
+      return {
+        data: null,
+        error: "Something went wrong",
+        message: "An unexpected error occurred",
+        status: 500,
+      };
+    }
+  }
 };
 export const filterFood = async (props: { query: string }) => {
   try {
@@ -74,7 +212,33 @@ export const filterFood = async (props: { query: string }) => {
       message: res.data?.message,
       status: res.data?.status,
     };
-  } catch (error) {}
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response
+        ? error.response.data.message
+        : "An error occurred";
+      const errorMsg = error.response
+        ? error.response.data.error
+        : "An error occurred";
+
+      const status = error.response ? error.response.status : "N/A";
+
+      return {
+        data: null,
+        error: errorMsg,
+        message,
+        status,
+      };
+    } else {
+      console.error("Error:", error);
+      return {
+        data: null,
+        error: "Something went wrong",
+        message: "An unexpected error occurred",
+        status: 500,
+      };
+    }
+  }
 };
 export const getCategory = async () => {
   try {
@@ -86,5 +250,31 @@ export const getCategory = async () => {
       message: res.data?.message,
       status: res.data?.status,
     };
-  } catch (error) {}
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response
+        ? error.response.data.message
+        : "An error occurred";
+      const errorMsg = error.response
+        ? error.response.data.error
+        : "An error occurred";
+
+      const status = error.response ? error.response.status : "N/A";
+
+      return {
+        data: null,
+        error: errorMsg,
+        message,
+        status,
+      };
+    } else {
+      console.error("Error:", error);
+      return {
+        data: null,
+        error: "Something went wrong",
+        message: "An unexpected error occurred",
+        status: 500,
+      };
+    }
+  }
 };
