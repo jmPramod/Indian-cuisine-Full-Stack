@@ -1,12 +1,18 @@
+import dotenv from "dotenv";
+dotenv.config();
 import multer from "multer";  // Use default import
 import { v2 as cloudinary } from 'cloudinary';
 // import { envFiles } from "../helper/helper";
-import dotenv from "dotenv";
 // export const envFiles=()=>{
 
-    dotenv.config();
 // }
 // Cloudinary configuration - make sure to add your environment variables
+
+console.log('Cloudinary Config:', {
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 export const cloudinaryImage=cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
