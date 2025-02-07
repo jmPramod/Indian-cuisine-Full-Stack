@@ -19,8 +19,14 @@ export const GlobalProvider = ({ children }: any) => {
         
     }
    }
-   
+   const loadUserFromLocalStorage = () => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+       setUser(JSON.parse(storedUser));
+    }
+ };
    useEffect(() => {
+    loadUserFromLocalStorage();
     fetchcategory();
   }, []);
     return (

@@ -38,7 +38,7 @@ const PopularCard = (props: { title: string; data: FoodItem[] }) => {
     <styles.outerContainer>
       <styles.outerWrapped>
         <styles.innerConatainer>
-          <Title1>Best {props.title} Rescipe</Title1>
+          <Title1>Best {props.title} Recipes</Title1>
           <styles.viweMore
             onClick={() => navigate(`/table/?region=${props.title}`)}
           >
