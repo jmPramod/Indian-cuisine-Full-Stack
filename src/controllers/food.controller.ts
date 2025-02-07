@@ -72,24 +72,20 @@ const filterProduct = async (req: Request, res: Response, next: NextFunction): P
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = parseInt(req.query.limit as string, 10) || 10;
 
-    const filter: { [key: string]: any } = {}; // Type for the filter object
+    const filter: { [key: string]: any } = {};
 
-    // Construct the filter object based on query parameters
     if (region) filter.region = { $regex: new RegExp(region as string, "i") };
     if (state) filter.state = { $regex: new RegExp(state as string, "i") };
     if (course) filter.course = { $regex: new RegExp(course as string, "i") };
     if (flavor_profile) filter.flavor_profile = { $regex: new RegExp(flavor_profile as string, "i") };
     if (diet) filter.diet = { $regex: new RegExp(diet as string, "i") };
 
-    // Ingredient filter logic
     if (ingredients && typeof ingredients === 'string') {
-      // Split the ingredients query into an array of individual ingredients
       const ingredientList: string[] = ingredients.split(',').map((ingredient) => ingredient.trim());
-      // The $all operator ensures the recipe includes all the ingredients
+  
       filter.ingredients = { $all: ingredientList.map((ingredient) => new RegExp(ingredient, "i")) };
     }
 
-    // Fetch filtered food data from the database
     const foodmenu = await FoodSchema.find(filter)
       .skip((page - 1) * limit)
       .limit(limit);
@@ -117,17 +113,16 @@ const searchProduct = async (req: Request, res: Response, next: NextFunction): P
     const { text } = req.query;
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = parseInt(req.query.limit as string, 10) || 10;
-  // Fetch filtered food data from the database
+
   if(!text){
     return next(createError(404, "No matching food recipes found."));
    
   }
   const filter ={
     $or: [
-      { name: { $regex: text, $options: "i" } }, // Case-insensitive search in 'name'
-      { ingredients: { $elemMatch: { $regex: text, $options: "i" } } }, // Search in 'ingredients' array
-      { state: { $regex: text, $options: "i" } }, // Search in 'state'
-      { region: { $regex: text, $options: "i" } } // Search in 'region'
+      { name: { $regex: text, $options: "i" } },
+      { ingredients: { $elemMatch: { $regex: text, $options: "i" } } },  { state: { $regex: text, $options: "i" } }, 
+      { region: { $regex: text, $options: "i" } } 
     ]
   }
   const foodmenu = await FoodSchema.find(filter).skip((page - 1) * limit)
@@ -159,21 +154,17 @@ const getDistinctFilters = async (req: Request, res: Response, next: NextFunctio
     const distinctFields = ["region", "state", "course", "flavor_profile", "diet"];
     const filterOptions: any = {};
 
-    // Fetch distinct values for predefined fields
     for (const field of distinctFields) {
       filterOptions[field] = await FoodSchema.distinct(field);
     }
-
-    // Fetch all ingredients and extract unique values
     const allIngredients = await FoodSchema.distinct("ingredients");
     const uniqueIngredients = new Set<string>();
 
     allIngredients.forEach((ingredientList: string) => {
       ingredientList.split(",").forEach((ingredient) => {
-        // Normalize the ingredient name
         let normalized = ingredient.trim().toLowerCase();
-        normalized = normalized.replace(/\s+/g, " "); // Remove extra spaces
-        normalized = normalized.replace(/[^a-zA-Z0-9\s]/g, ""); // Remove special characters
+        normalized = normalized.replace(/\s+/g, " "); 
+        normalized = normalized.replace(/[^a-zA-Z0-9\s]/g, ""); 
 
         uniqueIngredients.add(normalized);
       });
@@ -196,7 +187,6 @@ const getProductById = async (req: Request, res: Response, next: NextFunction) =
   try {
     const { id } = req.params;
 
-    // Validate if ID is a valid MongoDB ObjectId
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return next(createError(400, "Invalid product ID format."));
     }
