@@ -14,9 +14,7 @@ import { Dismiss24Regular } from "@fluentui/react-icons";
 import { searchFood } from "../../utils/API.services";
 import { Spinner } from "@fluentui/react-components";
 import { GlobalContext } from "../../Context/GlobalContext";
-/**
- * Type definitions for API response and search results
- */
+
 import { FaPizzaSlice } from "react-icons/fa6";
 interface SearchResult {
   _id: string;
@@ -45,7 +43,7 @@ const location=useLocation()
     }
 
     const fetchData = async () => {
-      setIsLoading(true); // Start loading
+      setIsLoading(true); 
       try {
         const response = await searchFood({query:searchText})
         
@@ -53,7 +51,7 @@ const location=useLocation()
 
           setShowDropdown(true);
           setSearchResults(response.data.data);
-          setIsLoading(false); //
+          setIsLoading(false); 
         }
       } catch (error) {
         console.error("Error fetching search results:", error);
@@ -71,15 +69,15 @@ React.useEffect(()=>{
 
 const handleLogout=()=>{
   localStorage.removeItem("token");
-  localStorage.removeItem("user"); // Convert object to string
-  localStorage.removeItem("userType"); // Store user type separately
+  localStorage.removeItem("user"); 
+  localStorage.removeItem("userType"); 
   setUser([])
 
 }
 React.useEffect(()=>{
   console.log(user);
-  const u = localStorage.getItem("user");
-  console.log("u",u);
+  localStorage.getItem("user");
+
   
   if(user.length>0){
     setLoginOrLogout(true)
@@ -102,13 +100,12 @@ React.useEffect(() => {
   console.log(token,user,u);
   
   if (token) {
-    // Token exists, user is logged in
+    
     setLoginOrLogout(true)
   } else {
-    // No token, redirect to login
+  
     setLoginOrLogout(false)
-    /* ------------------------- // navigate("/login"); ------------------------- */
-  }
+   }
 }, [navigate]);
 
 
@@ -141,12 +138,12 @@ React.useEffect(() => {
             <styles.searchDropdown>
               {searchResults.length > 0 ? (
                 searchResults.map((item) => (
-                  <div style={{cursor:"pointer",display:"flex", alignItems:"center",justifyContent:"space-between", padding:"5px"}}onClick={()=>navigate(`/single-food/${item._id}`)}>
+                  <styles.searchConatiner style={{}}onClick={()=>navigate(`/single-food/${item._id}`)}>
 
 
                     <styles.searchItem key={item._id}>{item.name}</styles.searchItem>
-                  <img src={item.img} alt="item.name"  width={50}/>
-                  </div>
+                  <styles.img src={item.img} alt="item.name"  width={50}/>
+                  </styles.searchConatiner>
                 ))
               ) : (
                 <styles.searchItem>No results found</styles.searchItem>
@@ -196,7 +193,7 @@ React.useEffect(() => {
         open={isDrawerOpen}
         onOpenChange={(_, { open }) => setIsDrawerOpen(open)}
       >
-        <div style={{ padding: "16px", display: "flex", flexDirection: "column" }}>
+        <styles.buttonWrapper style={{ }}>
           <Button
             icon={<Dismiss24Regular />}
             appearance="subtle"
@@ -206,7 +203,7 @@ React.useEffect(() => {
           <ToolbarButton appearance="primary">
             {loginOrLogout ? "Login" : "Logout"}
           </ToolbarButton>
-        </div>
+        </styles.buttonWrapper>
       </Drawer>
 
       <Outlet />

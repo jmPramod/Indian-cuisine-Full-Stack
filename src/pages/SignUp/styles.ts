@@ -23,6 +23,11 @@ leftContainer: styled("div")`
     width: 100%;
 }
 `,
+pTag:styled("p")`
+
+color: red;
+ font-size: 12px
+`,
 image: styled("img")`
   width: 80%;
 `,

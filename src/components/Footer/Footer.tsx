@@ -1,30 +1,23 @@
 import React from 'react';
-import { Stack, Text, Link } from '@fluentui/react';
-
-const footerStyles = {
-  root: {
-    backgroundColor: 'black',
-    color: 'white',
-    padding: '20px 0',
-  },
-};
+import { styles} from "./styles"
 
 const FooterComponent: React.FC = () => {
   return (
-    <div style={footerStyles.root}>
-      <Stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
-        <Text variant="large">Explore Indian Cuisine</Text>
-        <Stack horizontal horizontalAlign="center" tokens={{ childrenGap: 15 }}>
-          <Link href="https://www.example.com/privacy" target="_blank" styles={{ root: { color: 'white' } }}>
+    <styles.outerContainer >
+      <styles.logo src="https://res.cloudinary.com/dldfjvzkn/image/upload/v1738895661/logo_dixtt8.jpg"/>
+      <styles.stack horizontalAlign="center" tokens={{ childrenGap: 10 }}>
+        <styles.text variant="large">Explore Indian Cuisine</styles.text>
+        <styles.stack horizontal horizontalAlign="center" tokens={{ childrenGap: 15 }}>
+          <styles.link href="" target="_blank" >
             Privacy Policy
-          </Link>
-          <Link href="https://www.example.com/terms" target="_blank" styles={{ root: { color: 'white' } }}>
+          </styles.link>
+          <styles.link href="" target="_blank" >
             Terms of Service
-          </Link>
-        </Stack>
-        <Text variant="small">© 2025 Indian Cuisine Project</Text>
-      </Stack>
-    </div>
+          </styles.link>
+        </styles.stack>
+        <styles.text variant="small">© 2025 Indian Cuisine Project</styles.text>
+      </styles.stack>
+    </styles.outerContainer>
   );
 };
 

@@ -1,11 +1,13 @@
-import FoodTable from './Table/FoodTable'
-// import FoodTable from './Table/FoodTable'
+import FooterComponent from "../../components/Footer/Footer";
+import FoodTable from "./Table/FoodTable";
 
 const TablePage = () => {
   return (
-    <div style={{}}>
-      <FoodTable/></div>
-  )
-}
+    <div>
+      <FoodTable />
+      <FooterComponent />
+    </div>
+  );
+};
 
-export default TablePage
+export default TablePage;

@@ -10,6 +10,7 @@ import {
   MessageBarType 
 } from '@fluentui/react';
 import axios from 'axios';
+import FooterComponent from '../../components/Footer/Footer';
 
 interface IFoodForm {
   name: string;
@@ -111,107 +112,110 @@ const CreateFood: React.FC = () => {
     }
   };
 
-  return (
-    <Stack tokens={{ childrenGap: 20, padding: 20 }}>
-      <h1>Create New Food Item</h1>
-      
-      {error && (
-        <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setError('')}>
-          {error}
-        </MessageBar>
-      )}
-      
-      {success && (
-        <MessageBar messageBarType={MessageBarType.success} onDismiss={() => setSuccess(false)}>
-          Food item created successfully!
-        </MessageBar>
-      )}
+  return (<>
+  
+  <Stack tokens={{ childrenGap: 20, padding: 20 }}>
+    <h1>Create New Food Item</h1>
+    
+    {error && (
+      <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setError('')}>
+        {error}
+      </MessageBar>
+    )}
+    
+    {success && (
+      <MessageBar messageBarType={MessageBarType.success} onDismiss={() => setSuccess(false)}>
+        Food item created successfully!
+      </MessageBar>
+    )}
 
-      <Stack tokens={{ childrenGap: 10 }}>
+    <Stack tokens={{ childrenGap: 10 }}>
+      <TextField
+        label="Name"
+        required
+        value={formData.name}
+        onChange={(_, val) => handleInputChange('name', val || '')}
+      />
+
+      <StackItem>
         <TextField
-          label="Name"
-          required
-          value={formData.name}
-          onChange={(_, val) => handleInputChange('name', val || '')}
+          label="Ingredients"
+          value={ingredientInput}
+          onChange={(_, val) => setIngredientInput(val || '')}
+          onKeyPress={e => e.key === 'Enter' && handleAddIngredient()}
+          description="Type an ingredient and press Enter to add"
         />
+        <div style={{ marginTop: 5 }}>
+          {formData.ingredients.map((ingredient, index) => (
+            <span key={index} style={{ marginRight: 5, padding: '2px 5px', background: '#eee' }}>
+              {ingredient}
+            </span>
+          ))}
+        </div>
+      </StackItem>
 
-        <StackItem>
-          <TextField
-            label="Ingredients"
-            value={ingredientInput}
-            onChange={(_, val) => setIngredientInput(val || '')}
-            onKeyPress={e => e.key === 'Enter' && handleAddIngredient()}
-            description="Type an ingredient and press Enter to add"
-          />
-          <div style={{ marginTop: 5 }}>
-            {formData.ingredients.map((ingredient, index) => (
-              <span key={index} style={{ marginRight: 5, padding: '2px 5px', background: '#eee' }}>
-                {ingredient}
-              </span>
-            ))}
-          </div>
-        </StackItem>
+      <Dropdown
+        label="Diet"
+        required
+        options={dietOptions}
+        selectedKey={formData.diet}
+        onChange={(_, option) => handleInputChange('diet', option?.key.toString() || '')}
+      />
 
-        <Dropdown
-          label="Diet"
-          required
-          options={dietOptions}
-          selectedKey={formData.diet}
-          onChange={(_, option) => handleInputChange('diet', option?.key.toString() || '')}
-        />
-
-        <Stack horizontal tokens={{ childrenGap: 20 }}>
-          <TextField
-            label="Prep Time (minutes)"
-            type="number"
-            value={formData.prep_time.toString()}
-            onChange={(_, val) => handleInputChange('prep_time', Number(val))}
-          />
-          <TextField
-            label="Cook Time (minutes)"
-            type="number"
-            value={formData.cook_time.toString()}
-            onChange={(_, val) => handleInputChange('cook_time', Number(val))}
-          />
-        </Stack>
-
-        <Dropdown
-          label="Flavor Profile"
-          options={flavorProfileOptions}
-          selectedKey={formData.flavor_profile}
-          onChange={(_, option) => handleInputChange('flavor_profile', option?.key.toString() || '')}
-        />
-
-        <Dropdown
-          label="Course"
-          required
-          options={courseOptions}
-          selectedKey={formData.course}
-          onChange={(_, option) => handleInputChange('course', option?.key.toString() || '')}
-        />
-
-        <Stack horizontal tokens={{ childrenGap: 20 }}>
-          <TextField
-            label="State"
-            value={formData.state}
-            onChange={(_, val) => handleInputChange('state', val || '')}
-          />
-          <TextField
-            label="Region"
-            value={formData.region}
-            onChange={(_, val) => handleInputChange('region', val || '')}
-          />
-        </Stack>
-
+      <Stack horizontal tokens={{ childrenGap: 20 }}>
         <TextField
-          label="Image URL"
-          value={formData.img}
-          onChange={(_, val) => handleInputChange('img', val || '')}
+          label="Prep Time (minutes)"
+          type="number"
+          value={formData.prep_time.toString()}
+          onChange={(_, val) => handleInputChange('prep_time', Number(val))}
         />
-
-        <PrimaryButton text="Submit" onClick={handleSubmit} style={{ marginTop: 20 }} />
+        <TextField
+          label="Cook Time (minutes)"
+          type="number"
+          value={formData.cook_time.toString()}
+          onChange={(_, val) => handleInputChange('cook_time', Number(val))}
+        />
       </Stack>
+
+      <Dropdown
+        label="Flavor Profile"
+        options={flavorProfileOptions}
+        selectedKey={formData.flavor_profile}
+        onChange={(_, option) => handleInputChange('flavor_profile', option?.key.toString() || '')}
+      />
+
+      <Dropdown
+        label="Course"
+        required
+        options={courseOptions}
+        selectedKey={formData.course}
+        onChange={(_, option) => handleInputChange('course', option?.key.toString() || '')}
+      />
+
+      <Stack horizontal tokens={{ childrenGap: 20 }}>
+        <TextField
+          label="State"
+          value={formData.state}
+          onChange={(_, val) => handleInputChange('state', val || '')}
+        />
+        <TextField
+          label="Region"
+          value={formData.region}
+          onChange={(_, val) => handleInputChange('region', val || '')}
+        />
+      </Stack>
+
+      <TextField
+        label="Image URL"
+        value={formData.img}
+        onChange={(_, val) => handleInputChange('img', val || '')}
+      />
+
+      <PrimaryButton text="Submit" onClick={handleSubmit} style={{ marginTop: 20 }} />
     </Stack>
+  </Stack>
+  <FooterComponent/>
+  </>
   );
 };
 

@@ -84,7 +84,6 @@ export const MultiselectWithTags = (props: PropsType) => {
 
   return (
     <div className={styles.root}>
-      {/* <label id={comboId}>Best pets</label> */}
       {selectedOptions.length ? (
         <ul id={selectedListId} className={styles.tagsList} ref={selectedListRef}>
           <span id={`${comboId}-remove`} hidden>

@@ -12,10 +12,11 @@ export const styles = {
   ToolbarContainer: styled(Toolbar)<{
     $isHomePage: boolean;
   }>`
-    min-height:${({ $isHomePage }) => ($isHomePage ? ' 90px' : ' 60px')};
+    min-height: ${({ $isHomePage }) => ($isHomePage ? " 90px" : " 60px")};
     display: flex;
     /* background-color: gray; */
-    background-color: ${({ $isHomePage }) => ($isHomePage ? 'transparent' : 'gray')};
+    background-color: ${({ $isHomePage }) =>
+      $isHomePage ? "transparent" : "gray"};
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
@@ -23,10 +24,10 @@ export const styles = {
     margin: 0 auto;
     /* background-color: transparent; */
     /* position: fixed; */
-    position: ${({ $isHomePage }) => ($isHomePage ? 'absolute' : 'static')};
+    position: ${({ $isHomePage }) => ($isHomePage ? "absolute" : "static")};
     z-index: 30;
     color: rgba(0, 0, 0, 0.87);
-  /* transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; */
+    /* transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; */
     /* box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12); */
     width: 100%;
     /* background-color: #1976d2; */
@@ -40,9 +41,9 @@ export const styles = {
       padding: 10px;
     }
   `,
-  
-  searchDropdown:styled("div")`
-     position: absolute;
+
+  searchDropdown: styled("div")`
+    position: absolute;
     top: 100%;
     /* left: 0; */
     width: 100%;
@@ -56,16 +57,12 @@ export const styles = {
     margin: 0 auto;
     /* overflowY: auto; */
   `,
-    searchItem: styled("div")`
+  searchItem: styled("div")`
     color: black;
     padding: 8px;
-      cursor: pointer;
-      border-bottom: 1px solid #ddd;
-   
-    
-    `
-    ,
-
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+  `,
   LogoButton: styled("div")<{
     $isHomePage: boolean;
   }>`
@@ -75,17 +72,16 @@ export const styles = {
     padding: 5px;
     border-radius: 10px;
     cursor: pointer;
-    align-items: center
-    ;
+    align-items: center;
     justify-content: center;
     gap: 10px;
-    border:${({ $isHomePage }) => ($isHomePage ? '1px solid white' : '1px solid white')}; ;
+    border: ${({ $isHomePage }) =>
+      $isHomePage ? "1px solid white" : "1px solid white"};
     color: white;
-    :hover{
+    :hover {
       transform: scale(1.1);
     }
-    @media(0<width<780px){
-      
+    @media (0<width<780px) {
       font-size: 10px;
     }
   `,
@@ -100,9 +96,10 @@ export const styles = {
     }
   `,
 
-  mobileMenuButton: styled("div")`  /* Add this style */
+  mobileMenuButton: styled("div")`
+    /* Add this style */
     display: none; /* Hide by default */
-color: black;
+    color: black;
     @media (max-width: 768px) {
       display: flex; /* Show on mobile */
       background-color: white;
@@ -110,8 +107,8 @@ color: black;
       cursor: pointer;
       font-size: 18px;
       /* width: 50px !important; */
-     flex-wrap: wrap;
-     /* min-width: 40px !important; */
+      flex-wrap: wrap;
+      /* min-width: 40px !important; */
       padding: 8px 12px;
       border-radius: 7px;
     }
@@ -169,4 +166,16 @@ color: black;
   searchBox: styled(SearchBox)`
     width: 100%;
   `,
+  searchConatiner: styled("div")`
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+   padding:5px`,
+   buttonWrapper:styled("div")`
+   padding: 16px;
+   display: flex;
+   flex-direction: column `,
+   img:styled("img")`
+   width:50px;`
 };

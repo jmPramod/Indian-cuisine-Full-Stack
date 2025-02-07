@@ -9,7 +9,7 @@ import { SkeletonLoader } from "../Card/SkelitonLoaderCard";
 import { useNavigate } from "react-router-dom";
 const PopularCard = (props: { title: string; data: FoodItem[] }) => {
   const [deviceType, setDeviceType] = useState("desktop");
-const navigate=useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const updateDeviceType = () => {
       if (window.innerWidth < 464) {
@@ -36,51 +36,43 @@ const navigate=useNavigate()
 
   return (
     <styles.outerContainer>
-
       <styles.outerWrapped>
-
-
-
-      <styles.innerConatainer>
-        <Title1>Best {props.title} Rescipe</Title1>
-        <styles.viweMore onClick={()=>navigate(`/table/?region=${props.title}`)}>
-          <u>View More</ u>
-        </styles.viweMore>
-      </styles.innerConatainer>
-      <Carousel
-        swipeable={false}
-        draggable={false}
-        // showDots={true}
-        responsive={responsive}
-        ssr={true}
-        // infinite={true}
-        // autoPlay={deviceType !== "mobile"}
-        // autoPlaySpeed={1000}
-        keyBoardControl={true}
-        customTransition="all .5s"
-        transitionDuration={500}
-        containerClass="carousel-container"
-        // removeArrowOnDeviceType={["tablet", ""]}
-        deviceType={deviceType}
-        dotListClass="custom-dot-list-style"
-        itemClass="carousel-item-padding-40-px"
-      >
-       {props.data && props.data.length > 0 ? (
-  props.data.map((food, i) => (
-    <styles.cardContainer key={i}>
-      <CardFood food={food} />
-    </styles.cardContainer>
-  ))
-) : (
-  Array.from({ length: 5 }).map((_, index) => (
-    <SkeletonLoader key={index} />
-  ))
-)}
-
-
-
-        {/* <CardFood food={foodData} /><CardFood food={foodData} /><CardFood food={foodData} /> */}
-      </Carousel>
+        <styles.innerConatainer>
+          <Title1>Best {props.title} Rescipe</Title1>
+          <styles.viweMore
+            onClick={() => navigate(`/table/?region=${props.title}`)}
+          >
+            <u>View More</u>
+          </styles.viweMore>
+        </styles.innerConatainer>
+        <Carousel
+          swipeable={false}
+          draggable={false}
+          // showDots={true}
+          responsive={responsive}
+          ssr={true}
+          // infinite={true}
+          // autoPlay={deviceType !== "mobile"}
+          // autoPlaySpeed={1000}
+          keyBoardControl={true}
+          customTransition="all .5s"
+          transitionDuration={500}
+          containerClass="carousel-container"
+          // removeArrowOnDeviceType={["tablet", ""]}
+          deviceType={deviceType}
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+        >
+          {props.data && props.data.length > 0
+            ? props.data.map((food, i) => (
+                <styles.cardContainer key={i}>
+                  <CardFood food={food} />
+                </styles.cardContainer>
+              ))
+            : Array.from({ length: 5 }).map((_, index) => (
+                <SkeletonLoader key={index} />
+              ))}
+        </Carousel>
       </styles.outerWrapped>
     </styles.outerContainer>
   );

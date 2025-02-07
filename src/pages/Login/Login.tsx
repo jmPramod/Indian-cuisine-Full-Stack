@@ -7,25 +7,7 @@ import { motion } from "framer-motion";
 import { GlobalContext } from '../../Context/GlobalContext';
 
 import { ToastMsg } from '../../components/ToastMsg/ToastMsg';
-interface User {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: number;
-  address: string;
-  state: string;
-  country: string;
-  pinCode: number;
-  profileImage?: {
-    imageUrl: string;
-    imgPublicId?: string | null;
-  };
-  isAdmin: string; // "admin" or "user"
-  favorite: any[]; // Adjust type if needed
-  createdAt: string;
-  updatedAt: string;
-}
+import { User } from '../../types/foodTypes';
 
 interface LoginResponse {
   status: number;
@@ -59,8 +41,7 @@ const Login: React.FC = () => {
       const res = await userLogin(formData) as LoginResponse | undefined; // Ensure type safety
 
       if (res && res.status === 200 && res.data?.token) {
-        console.log("User logged in:", res.data);
-        setUser(res.data.user)
+            setUser(res.data.user)
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user)); // Convert object to string
         localStorage.setItem("userType", res.data.user.isAdmin); // Store user type separately
@@ -151,8 +132,7 @@ const Login: React.FC = () => {
       </styles.rightContainer>
     </styles.outerContainer>
     <ToastMsg  message={error||""} intent="error"/>
-    {/* <ToastMsg  message="This is an error message" intent="error"/> */}
-    
+     
     </motion.div>
   );
 };

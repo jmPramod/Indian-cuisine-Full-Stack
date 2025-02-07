@@ -3,7 +3,7 @@ import { Carosal } from "./Carosal/Carosal";
 import PopularCard from "./CardPopular/PopularCard";
 import { filterFood } from "../../utils/API.services";
 import FooterComponent from "../../components/Footer/Footer";
-
+import {styles} from "./styles"
 const Home = () => {
   const [westFood, setWestFood] = useState([]);
   const [eastFood, setEastFood] = useState([]);
@@ -30,15 +30,12 @@ const Home = () => {
     if(south.status==200){
       setSouthFood(south?.data?.data || []);
     }
-    // const result = await filterFood({ query: `diet=West&limit=10` });
-    // setFood(result && result.data.data);
-    // console.log("result", result && result.data.info);
-  };
+   };
   useEffect(() => {
     fetchData();
   }, []);
   return (
-    <div style={{ background: "#F4F1EA" }}>
+    <styles.outerContianer >
       <Carosal />
       <PopularCard title="West" data={westFood} />
       <PopularCard title="North" data={northFood} />
@@ -46,7 +43,7 @@ const Home = () => {
       <PopularCard title="South" data={southFood} />
      
       <FooterComponent />
-    </div>
+    </styles.outerContianer>
   );
 };
 

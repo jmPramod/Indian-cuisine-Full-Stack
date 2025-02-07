@@ -18,5 +18,7 @@ export const styles = {
     padding-bottom: 30px;
     padding-top: 10px;
   `,
-  cardContainer: styled("div")``,
+  cardContainer: styled("div")`
+  margin-top: 10px;
+    margin-bottom: 10px;`,
 };

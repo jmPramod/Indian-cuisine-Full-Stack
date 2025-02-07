@@ -25,7 +25,7 @@ import { useNavigate } from "react-router-dom";
       height: "80vh",
       textAlign: "left",
       position: "relative",
-      width: "100%", // Makes it responsive
+      width: "100%", 
       "@media (max-width: 768px)": {
         height: "350px",
       },
@@ -44,12 +44,10 @@ import { useNavigate } from "react-router-dom";
       "@media (max-width: 768px)": {
         left: "5%",
         width: "80%",
-        // top: "10%",
         padding: "12px",
       },
       "@media (max-width: 480px)": {
         width: "90%",
-        // top: "5%",
         padding: "10px",
       },
     },

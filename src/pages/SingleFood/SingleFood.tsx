@@ -3,7 +3,6 @@
     Card, 
     Image, 
     Text, 
-    Button, 
     Divider,
     Spinner,
     makeStyles,
@@ -11,8 +10,8 @@
   } from "@fluentui/react-components";
   import { useParams } from "react-router-dom";
   import { searchSingleFood } from "../../utils/API.services";
-  import { SaveRegular } from "@fluentui/react-icons";
-import { Dish } from "../../types/foodTypes";
+  import { Dish } from "../../types/foodTypes";
+import FooterComponent from "../../components/Footer/Footer";
 
   const useStyles = makeStyles({
     card: {
@@ -128,8 +127,8 @@ import { Dish } from "../../types/foodTypes";
 
     if (loading) {
       return (
-        <div style={{ display: "flex", justifyContent: "center", padding: "40px" }}>
-          <Spinner label="Loading recipe..." />
+        <div style={{}}>
+          <Spinner  />
         </div>
       );
     }
@@ -145,6 +144,9 @@ import { Dish } from "../../types/foodTypes";
     }
 
     return (
+
+      <>
+      
       <Card className={styles.card}>
         <div className={styles.gridContainer}>
           {/* Image Section */}
@@ -205,16 +207,18 @@ import { Dish } from "../../types/foodTypes";
             ))}
           </ul>
 
-          <Button 
+          {/* <Button 
             appearance="primary" 
             icon={<SaveRegular />}
             style={{ marginTop: "16px", alignSelf: "start" }}
           >
             Save to Collection
-          </Button>
+          </Button> */}
         </div>
       </div>
     </Card>
+     <FooterComponent/>
+      </>
   );
 };
 

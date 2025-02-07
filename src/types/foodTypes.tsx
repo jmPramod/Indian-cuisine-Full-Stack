@@ -12,6 +12,25 @@ export interface FoodItem {
     _id:string
   }
 
+export interface User {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: number;
+  address: string;
+  state: string;
+  country: string;
+  pinCode: number;
+  profileImage?: {
+    imageUrl: string;
+    imgPublicId?: string | null;
+  };
+  isAdmin: string;
+  favorite: any[]; 
+  createdAt: string;
+  updatedAt: string;
+}
 
   export interface CategoryData {
     region: string[];

@@ -9,7 +9,7 @@ export const styles = {
     width: 100%;
     gap: 1.5rem;
     padding: 1rem;
-    background-color: #f8fafc;
+    background-color: #F4F1EA;
 
     @media (min-width: 768px) {
       flex-direction: row;

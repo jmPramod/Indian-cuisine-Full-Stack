@@ -13,20 +13,10 @@ import {
 import { IoLeafSharp } from "react-icons/io5";
 import { GiChickenLeg } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
-// Define TypeScript interface for props
-interface FoodItem {
-  name: string;
-  ingredients: string;
-  diet: string; // Fixing the key name
-  prep_time: number;
-  cook_time: number;
-  flavor_profile: string;
-  course: string;
-  state: string;
-  region: string;
-  img: string;
-  _id:string;
-}
+
+import {  motion } from 'framer-motion';
+import { FoodItem } from "../../../types/foodTypes";
+
 
 // Define styles
 const useStyles = makeStyles({
@@ -35,11 +25,7 @@ const useStyles = makeStyles({
     width: "100%",
     maxWidth: "250px",
     padding:"10px",
-    // display:"flex",
-    // flexDirection:"column",
-    // alignItems:"center",
-    // justifyContent:"space-between"
-  },
+     },
   image: {
     width: "100%",
     borderRadius: "8px",
@@ -50,9 +36,17 @@ const useStyles = makeStyles({
 export const CardFood: React.FC<{ food: FoodItem }> = ({ food }) => {
   const styles = useStyles();
 const navigate=useNavigate()
+
   return (
 
-    <>
+    <motion.div
+    whileHover={{ scale: 1.05 }}
+        onHoverStart={() => {}}
+        onHoverEnd={() => {}}
+        whileTap={{ scale: 0.8 }}
+      >
+
+
     <Card className={styles.card} onClick={()=>navigate(`single-food/${food._id}`)}>
       <CardHeader
         image={<img src={food.img} alt={food.name} className={styles.image} />}
@@ -86,8 +80,9 @@ const navigate=useNavigate()
         <Button icon={<ShareRegular fontSize={16} />}>Share</Button>
       </CardFooter> */}
     </Card>
+  </motion.div>
     
     
-    </>
+    
   );
 };

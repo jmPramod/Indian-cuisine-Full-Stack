@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { styles } from "./styles";
 
 import { motion } from "framer-motion";
-import { userRegister } from '../../utils/API.services';
-import { GlobalContext } from '../../Context/GlobalContext';
-import { ToastMsg } from '../../components/ToastMsg/ToastMsg';
+import { userRegister } from "../../utils/API.services";
+import { GlobalContext } from "../../Context/GlobalContext";
+import { ToastMsg } from "../../components/ToastMsg/ToastMsg";
 
 // Define Form Data Type
 interface FormData {
@@ -24,19 +24,23 @@ const validationSchema = Yup.object({
   phone: Yup.string()
     .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
     .required("Phone number is required"),
-  email: Yup.string().email("Invalid email format").required("Email is required"),
-  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], "Passwords must match")
+    .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Confirm password is required"),
 });
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
- const { setUser } = React.useContext(GlobalContext);
- const [error, setError] = useState<string | null|undefined>(null);
- 
-const[loading,setLoading]=useState(false)  // Initialize Formik
+  const { setUser } = React.useContext(GlobalContext);
+  const [error, setError] = useState<string | null | undefined>(null);
+
+  const [loading, setLoading] = useState(false); // Initialize Formik
   const formik = useFormik<FormData>({
     initialValues: {
       firstName: "",
@@ -46,150 +50,160 @@ const[loading,setLoading]=useState(false)  // Initialize Formik
       confirmPassword: "",
     },
     validationSchema,
-    onSubmit: async(values) => {
-      setLoading(true)
-      
+    onSubmit: async (values) => {
+      setLoading(true);
+
       const { confirmPassword, ...data } = values;
 
       console.log("Form submitted successfully", values);
-      const res=await userRegister(data)
+      const res = await userRegister(data);
       // Redirect to login page or make API request
       if (res && res.status === 200 && res.data?.token) {
         console.log("User logged in:", res.data);
-        setUser(res.data.user)
+        setUser(res.data.user);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user)); // Convert object to string
         localStorage.setItem("userType", res.data.user.isAdmin); // Store user type separately
-      
+
         navigate("/");
+      } else {
+        setError(res?.error);
       }
-      else {
-        setError( res?.error);
-      }
-      setLoading(false)
+      setLoading(false);
       // navigate("/");
     },
   });
   const containerVariants = {
-    hidden: { width: "100%",opacity: 0, y: 200 },
+    hidden: { width: "100%", opacity: 0, y: 200 },
     visible: {
       width: "100%",
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1, 
+        duration: 1,
         ease: "easeInOut",
       },
     },
   };
   const textVariants = {
-    hidden: { opacity: 0, y: -200 ,width:"100%"},
+    hidden: { opacity: 0, y: -200, width: "100%" },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1, delay: 1 }, 
+      transition: { duration: 1, delay: 1 },
     },
   };
-  return (    <motion.div 
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-  
-      >
-        
-    <styles.outerContainer>
-      <styles.rightContainer>
-         <motion.div
-                    variants={textVariants}
-                    initial="hidden"
-                    animate="visible"
-                  >
+  return (
+    <motion.div variants={containerVariants} initial="hidden" animate="visible">
+      <styles.outerContainer>
+        <styles.rightContainer>
+          <motion.div
+            variants={textVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <styles.loginForm onSubmit={formik.handleSubmit}>
+              <styles.heading>Sign Up</styles.heading>
 
-        <styles.loginForm onSubmit={formik.handleSubmit}>
-          <styles.heading>Sign Up</styles.heading>
+              {/* First Name */}
+              <styles.input
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.firstName && formik.errors.firstName && (
+                <styles.pTag>
+                  {formik.errors.firstName}
+                </styles.pTag>
+              )}
 
-          {/* First Name */}
-          <styles.input
-            type='text'
-            name="firstName"
-            placeholder='First Name'
-            value={formik.values.firstName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.firstName && formik.errors.firstName && (
-            <p style={{ color: "red", fontSize: "12px" }}>{formik.errors.firstName}</p>
-          )}
+              {/* Phone Number */}
+              <styles.input
+                type="tel"
+                name="phone"
+                placeholder="Phone"
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.phone && formik.errors.phone && (
+                <styles.pTag>
+                  {formik.errors.phone}
+                </styles.pTag>
+              )}
 
-          {/* Phone Number */}
-          <styles.input
-            type='tel'
-            name="phone"
-            placeholder='Phone'
-            value={formik.values.phone}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.phone && formik.errors.phone && (
-            <p style={{ color: "red", fontSize: "12px" }}>{formik.errors.phone}</p>
-          )}
+              {/* Email */}
+              <styles.input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.email && formik.errors.email && (
+                <styles.pTag >
+                  {formik.errors.email}
+                </styles.pTag>
+              )}
 
-          {/* Email */}
-          <styles.input
-            type='email'
-            name="email"
-            placeholder='Email'
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.email && formik.errors.email && (
-            <p style={{ color: "red", fontSize: "12px" }}>{formik.errors.email}</p>
-          )}
+              {/* Password */}
+              <styles.input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.password && formik.errors.password && (
+                <styles.pTag >
+                  {formik.errors.password}
+                </styles.pTag>
+              )}
 
-          {/* Password */}
-          <styles.input
-            type='password'
-            name="password"
-            placeholder='Password'
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.password && formik.errors.password && (
-            <p style={{ color: "red", fontSize: "12px" }}>{formik.errors.password}</p>
-          )}
+              {/* Confirm Password */}
+              <styles.input
+                type="password"
+                name="confirmPassword"
+                placeholder="Re-Enter Password"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.confirmPassword &&
+                formik.errors.confirmPassword && (
+                  <styles.pTag >
+                    {formik.errors.confirmPassword}
+                  </styles.pTag>
+                )}
 
-          {/* Confirm Password */}
-          <styles.input
-            type='password'
-            name="confirmPassword"
-            placeholder='Re-Enter Password'
-            value={formik.values.confirmPassword}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-            <p style={{ color: "red", fontSize: "12px" }}>{formik.errors.confirmPassword}</p>
-          )}
+              <styles.button type="submit" disabled={loading}>
+                {loading ? "Loading..." : "Sign Up"}
+              </styles.button>
+              <p>
+                Already have an account?{" "}
+                <u
+                  onClick={() => navigate("/login")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Login
+                </u>
+              </p>
+              <styles.pTag >{error && error}</styles.pTag>
+            </styles.loginForm>
+          </motion.div>
+        </styles.rightContainer>
 
-          <styles.button type="submit" disabled={loading}>{loading?"Loading...":"Sign Up"}</styles.button>
-          <p>
-            Already have an account?{" "}
-            <u  onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>Login</u>
-          </p>
-          <p style={{color:"red"}}>{error&&error}</p>
-        </styles.loginForm>
-                  </motion.div>
-      </styles.rightContainer>
-
-      <styles.leftContainer>
-        <styles.image src='one.png' />
-      </styles.leftContainer>
-    </styles.outerContainer>
-    <ToastMsg  message={error||""} intent="error"/>
-    
-      </motion.div>
+        <styles.leftContainer>
+          <styles.image src="one.png" />
+        </styles.leftContainer>
+      </styles.outerContainer>
+      <ToastMsg message={error || ""} intent="error" />
+    </motion.div>
   );
 };
 

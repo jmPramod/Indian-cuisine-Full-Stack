@@ -15,7 +15,6 @@ import { styles } from "./styles";
 import { MultiselectWithTags } from "../InputSerach/InputSearch";
 import { useNavigate } from "react-router-dom";
 
-// Define TypeScript interface for a dish
 interface Dish {
   name: string;
   _id:string;
@@ -46,7 +45,7 @@ const FoodTable: React.FC = () => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(1);
 const navigate=useNavigate()
-  // Sort state
+ 
   const [sortColumn, setSortColumn] = React.useState<string>("");
   const [sortDirection, setSortDirection] = React.useState<"asc" | "desc">("asc");
 
@@ -58,7 +57,7 @@ const navigate=useNavigate()
         const result = await filterFood({ query: queryString });
         if (result?.status === 200) {
           setApiDishes(result.data.data);
-          setTotalPages(result.data.info.totalPages); // Store total pages from the API response
+          setTotalPages(result.data.info.totalPages); 
       
         } else {
           setApiDishes([]);
