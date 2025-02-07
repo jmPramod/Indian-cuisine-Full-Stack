@@ -2,6 +2,7 @@ import express from "express";
 
 import { verifyAdmin } from "../middlewears/verify.token.middlewear";
 import { createCommonFood, filterProduct, getAllCommonFood, getDistinctFilters, getProductById, searchProduct } from "../controllers/food.controller";
+import { foodProfile } from "../middlewears/cloudinar.multer";
 
 
 
@@ -15,5 +16,5 @@ foodRoute.get("/filter-product",filterProduct );
 foodRoute.get("/get-category",getDistinctFilters );
 
 foodRoute.get("/search-food",searchProduct );
-foodRoute.post("/create-common-food",verifyAdmin, createCommonFood);
+foodRoute.post("/create-common-food",verifyAdmin,foodProfile.any(), createCommonFood);
 
