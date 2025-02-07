@@ -66,10 +66,24 @@ export const styles = {
     `
     ,
 
-  LogoButton: styled("div")`
+  LogoButton: styled("div")<{
+    $isHomePage: boolean;
+  }>`
     font-size: 20px;
     font-weight: bold;
+    display: flex;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-items: center
+    ;
+    justify-content: center;
+    gap: 10px;
+    border:${({ $isHomePage }) => ($isHomePage ? '1px solid white' : '1px solid white')}; ;
     color: white;
+    :hover{
+      transform: scale(1.1);
+    }
     @media(0<width<780px){
       
       font-size: 10px;

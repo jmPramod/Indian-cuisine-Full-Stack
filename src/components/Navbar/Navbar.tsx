@@ -17,6 +17,7 @@ import { GlobalContext } from "../../Context/GlobalContext";
 /**
  * Type definitions for API response and search results
  */
+import { FaPizzaSlice } from "react-icons/fa6";
 interface SearchResult {
   _id: string;
   name: string;
@@ -117,7 +118,7 @@ React.useEffect(() => {
       <styles.ToolbarContainer aria-label="Navigation"  $isHomePage={location.pathname==="/"?true:false}>
   
         {/* Logo */}
-        <styles.LogoButton onClick={()=>navigate("/")}>LOGO</styles.LogoButton>
+        <styles.LogoButton  $isHomePage={location.pathname==="/"?true:false} onClick={()=>navigate("/")}>Food<FaPizzaSlice color={location.pathname==="/"?"white":" white"} size={30}/></styles.LogoButton>
 
         {/* Search Box */}
         <styles.field>

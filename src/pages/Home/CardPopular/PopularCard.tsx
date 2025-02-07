@@ -1,13 +1,15 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { CardFood } from "../Card/CardFood";
 import { FoodItem } from "../../../types/foodTypes";
 import { Body1, Title1 } from "@fluentui/react-components";
-
-const PopularCard = (props:{title:string,data:FoodItem[]}) => {
+import { styles } from "./styles";
+import { SkeletonLoader } from "../Card/SkelitonLoaderCard";
+import { useNavigate } from "react-router-dom";
+const PopularCard = (props: { title: string; data: FoodItem[] }) => {
   const [deviceType, setDeviceType] = useState("desktop");
-
+const navigate=useNavigate()
   useEffect(() => {
     const updateDeviceType = () => {
       if (window.innerWidth < 464) {
@@ -33,12 +35,18 @@ const PopularCard = (props:{title:string,data:FoodItem[]}) => {
   };
 
   return (
-    <div style={{padding:"20px"}}>
-      <div style={{display:"flex", alignItems:"center",justifyContent:"space-between"}}>
+    <styles.outerContainer>
 
-        <Title1>{props.title}</Title1>
-<Body1> <u>View More</u></Body1>
-      </div>
+      <styles.outerWrapped>
+
+
+
+      <styles.innerConatainer>
+        <Title1>Best {props.title} Rescipe</Title1>
+        <styles.viweMore onClick={()=>navigate(`/table/?region=${props.title}`)}>
+          <u>View More</ u>
+        </styles.viweMore>
+      </styles.innerConatainer>
       <Carousel
         swipeable={false}
         draggable={false}
@@ -57,19 +65,24 @@ const PopularCard = (props:{title:string,data:FoodItem[]}) => {
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item-padding-40-px"
       >
-        {props.data&&props.data.map((food,i)=>(
+       {props.data && props.data.length > 0 ? (
+  props.data.map((food, i) => (
+    <styles.cardContainer key={i}>
+      <CardFood food={food} />
+    </styles.cardContainer>
+  ))
+) : (
+  Array.from({ length: 5 }).map((_, index) => (
+    <SkeletonLoader key={index} />
+  ))
+)}
 
-<div key={i}>
 
-  <CardFood food={food} />
 
-</div>
-        ))}
-      
-      {/* <CardFood food={foodData} /><CardFood food={foodData} /><CardFood food={foodData} /> */}
-      
-            </Carousel>
-    </div>
+        {/* <CardFood food={foodData} /><CardFood food={foodData} /><CardFood food={foodData} /> */}
+      </Carousel>
+      </styles.outerWrapped>
+    </styles.outerContainer>
   );
 };
 

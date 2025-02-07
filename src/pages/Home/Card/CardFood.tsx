@@ -12,6 +12,7 @@ import {
 } from "@fluentui/react-components";
 import { IoLeafSharp } from "react-icons/io5";
 import { GiChickenLeg } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
 // Define TypeScript interface for props
 interface FoodItem {
   name: string;
@@ -24,6 +25,7 @@ interface FoodItem {
   state: string;
   region: string;
   img: string;
+  _id:string;
 }
 
 // Define styles
@@ -47,9 +49,11 @@ const useStyles = makeStyles({
 // Accept food item as props
 export const CardFood: React.FC<{ food: FoodItem }> = ({ food }) => {
   const styles = useStyles();
-
+const navigate=useNavigate()
   return (
-    <Card className={styles.card}>
+
+    <>
+    <Card className={styles.card} onClick={()=>navigate(`single-food/${food._id}`)}>
       <CardHeader
         image={<img src={food.img} alt={food.name} className={styles.image} />}
         header={<Body1><b>{food.name}</b></Body1>}
@@ -82,5 +86,8 @@ export const CardFood: React.FC<{ food: FoodItem }> = ({ food }) => {
         <Button icon={<ShareRegular fontSize={16} />}>Share</Button>
       </CardFooter> */}
     </Card>
+    
+    
+    </>
   );
 };

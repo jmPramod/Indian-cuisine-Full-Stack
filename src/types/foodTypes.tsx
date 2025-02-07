@@ -9,6 +9,7 @@ export interface FoodItem {
     state: string;
     region: string;
     img: string;
+    _id:string
   }
 
 
