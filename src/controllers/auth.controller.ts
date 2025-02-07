@@ -199,7 +199,8 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json({
       message: 'User updated successfully.',
       data: userToUpdate,
-      statusCode: 200,
+      status: 200,
+      error:null
     });
   } catch (error) {
     next(error);
