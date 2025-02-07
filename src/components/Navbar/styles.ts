@@ -8,6 +8,8 @@ import {
   Toolbar,
 } from "@fluentui/react-components";
 
+import { FaPizzaSlice } from "react-icons/fa6";
+
 export const styles = {
   ToolbarContainer: styled(Toolbar)<{
     $isHomePage: boolean;
@@ -41,7 +43,11 @@ export const styles = {
       padding: 10px;
     }
   `,
+logo:styled(FaPizzaSlice)`
 
+@media (0<width<780px) {
+      font-size: 10px;
+    }`,
   searchDropdown: styled("div")`
     position: absolute;
     top: 100%;
@@ -83,6 +89,7 @@ export const styles = {
     }
     @media (0<width<780px) {
       font-size: 10px;
+      gap: 5px;
     }
   `,
 

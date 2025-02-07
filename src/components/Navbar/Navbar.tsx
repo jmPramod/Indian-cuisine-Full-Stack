@@ -14,8 +14,6 @@ import { Dismiss24Regular } from "@fluentui/react-icons";
 import { searchFood } from "../../utils/API.services";
 import { Spinner } from "@fluentui/react-components";
 import { GlobalContext } from "../../Context/GlobalContext";
-
-import { FaPizzaSlice } from "react-icons/fa6";
 interface SearchResult {
   _id: string;
   name: string;
@@ -115,7 +113,7 @@ React.useEffect(() => {
       <styles.ToolbarContainer aria-label="Navigation"  $isHomePage={location.pathname==="/"?true:false}>
   
         {/* Logo */}
-        <styles.LogoButton  $isHomePage={location.pathname==="/"?true:false} onClick={()=>navigate("/")}>Food<FaPizzaSlice color={location.pathname==="/"?"white":" white"} size={30}/></styles.LogoButton>
+        <styles.LogoButton  $isHomePage={location.pathname==="/"?true:false} onClick={()=>navigate("/")}>Food<styles.logo color={location.pathname==="/"?"white":" white"} /></styles.LogoButton>
 
         {/* Search Box */}
         <styles.field>
