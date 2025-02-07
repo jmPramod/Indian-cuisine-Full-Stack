@@ -6,7 +6,7 @@
     Divider,
     Spinner,
     makeStyles,
-    shorthands
+    // shorthands
   } from "@fluentui/react-components";
   import { useParams } from "react-router-dom";
   import { searchSingleFood } from "../../utils/API.services";
@@ -46,7 +46,7 @@ import FooterComponent from "../../components/Footer/Footer";
     detailsSection: {
       display: "flex",
       flexDirection: "column",
-      ...shorthands.gap("12px"),
+      // ...shorthands.gap("12px"),
     },
     sectionTitle: {
       color: "#1a73e8",
@@ -56,28 +56,28 @@ import FooterComponent from "../../components/Footer/Footer";
       display: "flex",
       flexWrap: "wrap",
       padding:"10px",
-      ...shorthands.gap("8px"),
+      // ...shorthands.gap("8px"),
       marginBottom: "12px",
     },
     tag: {
       backgroundColor: "#e8f0fe",
       color: "#1967d2",
-      ...shorthands.padding("4px 12px"),
+      // ...shorthands.padding("4px 12px"),
       borderRadius: "20px",
       fontSize: "20px",
     },
     ingredientList: {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-      ...shorthands.gap("8px"),
+      // ...shorthands.gap("8px"),
       listStyle: "none",
-      ...shorthands.padding(0),
+      // ...shorthands.padding(0),
       margin: "12px 0",
     },
     ingredientItem: {
       display: "flex",
       alignItems: "center",
-      ...shorthands.padding("8px 12px"),
+      // ...shorthands.padding("8px 12px"),
       backgroundColor: "#f8f9fa",
       borderRadius: "8px",
       "&::before": {
@@ -89,13 +89,13 @@ import FooterComponent from "../../components/Footer/Footer";
     timeContainer: {
       display: "grid",
       gridTemplateColumns: "repeat(2, 1fr)",
-      ...shorthands.gap("16px"),
+      // ...shorthands.gap("16px"),
       margin: "12px 0",
     },
     timeBox: {
       textAlign: "start",
       justifyContent:"center",
-      ...shorthands.padding("16px"),
+      // ...shorthands.padding("16px"),
       backgroundColor: "#f8f9fa",
       borderRadius: "8px",
     },
