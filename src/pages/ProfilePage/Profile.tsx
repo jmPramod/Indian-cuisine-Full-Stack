@@ -9,6 +9,7 @@ import {
 } from '@fluentui/react';
 import { GlobalContext } from '../../Context/GlobalContext';
 import { userUpdate } from '../../utils/API.services';
+import FooterComponent from '../../components/Footer/Footer';
 
 interface User {
   _id: string;
@@ -118,7 +119,9 @@ const Profile = () => {
     padding: 20,
   });
 
-  return (
+  return (<>
+  
+  
     <div className={containerClass}>
       <Stack tokens={{ childrenGap: 20 }}>
         <Persona
@@ -157,7 +160,10 @@ const Profile = () => {
           <PrimaryButton text="Edit Profile" onClick={() => setIsEditing(true)} styles={{ root: { maxWidth: 200, marginTop: 20 } }} />
         )}
       </Stack>
+     
     </div>
+    <FooterComponent/>
+  </>
   );
 };
 

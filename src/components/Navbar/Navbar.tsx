@@ -168,7 +168,7 @@ React.useEffect(() => {
           ) : (
             <styles.menuWrapper>
               <MenuTrigger>
-                <styles.profileImage src="https://res.cloudinary.com/dtvq8ysaj/image/upload/v1720770108/Global%20Images/profile_new-removebg-preview_motz7n.png" />
+                <styles.profileImage src={user.profileImage.imageUrl} />
               </MenuTrigger>
 
               <styles.MenuPopoverContainer>
