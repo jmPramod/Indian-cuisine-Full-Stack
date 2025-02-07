@@ -174,6 +174,7 @@ export const styles = {
    padding:5px`,
    buttonWrapper:styled("div")`
    padding: 16px;
+   gap: 10px;
    display: flex;
    flex-direction: column `,
    img:styled("img")`

@@ -173,7 +173,7 @@ React.useEffect(() => {
 
               <styles.MenuPopoverContainer>
                 <MenuList>
-                  <styles.menuItem>Profile</styles.menuItem>
+                  <styles.menuItem onClick={()=>navigate("/profile")}>Profile</styles.menuItem>
                   <styles.menuItem onClick={()=>handleLogout()}>Logout</styles.menuItem>
                 </MenuList>
               </styles.MenuPopoverContainer>
@@ -200,8 +200,8 @@ React.useEffect(() => {
             onClick={() => setIsDrawerOpen(false)}
           />
           <ToolbarButton appearance="primary">Home</ToolbarButton>
-          <ToolbarButton appearance="primary">
-            {loginOrLogout ? "Login" : "Logout"}
+          <ToolbarButton appearance="primary"   onClick={()=>handleLogout()}>
+            {!loginOrLogout ? "Login" : "Logout"}
           </ToolbarButton>
         </styles.buttonWrapper>
       </Drawer>
