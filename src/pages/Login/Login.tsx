@@ -145,7 +145,7 @@ const Login: React.FC = () => {
             {loading ? "Logging in..." : "Login"}
           </styles.button>
 
-          <p>Don't have an account? <u onClick={() => navigate("/register")}>Register</u></p>
+          <p>Don't have an account? <u style={{cursor:"pointer"}}onClick={() => navigate("/register")}>Register</u></p>
         </styles.loginForm>
           </motion.div>
       </styles.rightContainer>

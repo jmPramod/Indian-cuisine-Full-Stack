@@ -3,7 +3,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { CardFood } from "../Card/CardFood";
 import { FoodItem } from "../../../types/foodTypes";
-import { Body1, Title1 } from "@fluentui/react-components";
+import { Title1 } from "@fluentui/react-components";
 import { styles } from "./styles";
 import { SkeletonLoader } from "../Card/SkelitonLoaderCard";
 import { useNavigate } from "react-router-dom";

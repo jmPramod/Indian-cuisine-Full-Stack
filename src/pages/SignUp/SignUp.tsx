@@ -176,8 +176,9 @@ const[loading,setLoading]=useState(false)  // Initialize Formik
           <styles.button type="submit" disabled={loading}>{loading?"Loading...":"Sign Up"}</styles.button>
           <p>
             Already have an account?{" "}
-            <u onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>Login</u>
+            <u  onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>Login</u>
           </p>
+          <p style={{color:"red"}}>{error&&error}</p>
         </styles.loginForm>
                   </motion.div>
       </styles.rightContainer>
