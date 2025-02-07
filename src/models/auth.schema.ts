@@ -12,7 +12,10 @@ export interface Auth extends Document {
   email: string;
   password: string;
   isAdmin: string;
-  profileImage: string;
+  profileImage:  {
+    imageUrl: string;
+    imgPublicId: string | null;
+  };
 }
 
 const authSchema: Schema = new Schema(

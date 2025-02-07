@@ -52,7 +52,7 @@ const FoodStorage = new CloudinaryStorage({
     params: {
       folder: 'FoodImg',
       transformation: [
-        { width: 800, height: 600, crop: 'limit' },
+        { width: 600, height: 600, crop: 'limit' },
         { quality: 'auto' },
         { fetch_format: 'auto' },
         { progressive: true },

@@ -11,6 +11,7 @@ export interface FoodSchema extends Document {
   course: string;
   state: string; 
   region: string;
+  imgPublicId: string | null;
   img: string;
   createdBy: mongoose.Types.ObjectId | null;}
 
@@ -27,11 +28,14 @@ const Food : Schema = new Schema(
     state: { type: String, required: true }, 
     region: { type: String, required: true }, 
     img: { type: String, default: "" }, 
+    
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
       default: null,
     }, 
+    imgPublicId: { type: String, default: null }
+ 
   },
   { timestamps: true }
 );

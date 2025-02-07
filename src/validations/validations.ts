@@ -79,5 +79,7 @@ export const FoodSchemaValidation = Joi.object({
     "string.empty": "Region cannot be empty.",
   }),
   img: Joi.string().allow("").optional(),
+  imgPublicId: Joi.string().allow("").optional(),
+  
   createdBy: Joi.string().allow(null).optional(),
 });

@@ -1,6 +1,6 @@
 import FoodSchema from "./../models/food.schema";
 import express, { NextFunction, Request, Response } from "express";
-
+import Auth from "../models/auth.schema";
 
 import createError from "../middlewears/error.middlewear";
 import {
@@ -9,13 +9,51 @@ import {
 import { envFiles } from "../helper/helper";
 // envFiles();
 import dotenv from "dotenv";
+import { cloudinaryImage } from "../middlewears/cloudinar.multer";
 dotenv.config();
+interface ExistingImages {
+  img: string;
+  imgPublicId: string;
+}
 const createCommonFood = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+
+   
+
+    let existingImages: ExistingImages = { img: '', imgPublicId: '' };
+    // Check if req.files is an array and has elements
+    if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+      const urlPath = req.files[0].path; // No need to cast after type check
+      const q = urlPath.split('.')[2].split('/');
+      const publicID = q[q.length - 2].concat('/', q[q.length - 1]);
+
+      existingImages = {
+        img: urlPath,
+        imgPublicId: publicID,
+      };
+      // console.log('existingImages', existingImages);
+
+      // if (oldData.imgPublicId) {
+      //   console.log('oldData.images.imgPublicId', oldData.imgPublicId);
+
+      //   // Use async/await instead of callback for cleaner code
+      //   try {
+      //     const result = await cloudinaryImage.uploader.destroy(oldData.imgPublicId);
+      //     console.log('Deleted thumbnail image:', result);
+      //   } catch (error) {
+      //     console.error('Error deleting thumbnail image:', error);
+      //   }
+      // }
+
+      req.body.imgPublicId = publicID;
+      
+      req.body.img = urlPath;
+    }
+
     const { error, value } = FoodSchemaValidation.validate(req.body);
 
     if (error) {
