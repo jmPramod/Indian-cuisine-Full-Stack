@@ -166,7 +166,7 @@ React.useEffect(() => {
           ) : (
             <styles.menuWrapper>
               <MenuTrigger>
-                <styles.profileImage src={user.profileImage.imageUrl} />
+              {user.profileImage&&  <styles.profileImage src={user.profileImage.imageUrl} />}
               </MenuTrigger>
 
               <styles.MenuPopoverContainer>
@@ -197,10 +197,37 @@ React.useEffect(() => {
             appearance="subtle"
             onClick={() => setIsDrawerOpen(false)}
           />
-          <ToolbarButton appearance="primary">Home</ToolbarButton>
-          <ToolbarButton appearance="primary"   onClick={()=>handleLogout()}>
+          
+            {!loginOrLogout ? (
+            <ToolbarButton aria-label="Login/Logout" appearance="primary" onClick={()=>navigate("/login")}>
+              {!loginOrLogout ? "Login" : "Logout"}
+            </ToolbarButton>
+          ) : (
+
+            <>
+              <styles.profileImage  onClick={()=>navigate("/profile")} src={user.profileImage.imageUrl} />
+          
+            <ToolbarButton appearance="primary" onClick={()=>navigate("/")}>Home</ToolbarButton>
+            <ToolbarButton appearance="primary" onClick={()=>handleLogout()}>Logout</ToolbarButton>
+        
+            {/* <styles.menuWrapper>
+              <MenuTrigger>
+                  </MenuTrigger>
+
+              <styles.MenuPopoverContainer>
+                <MenuList>
+                  <styles.menuItem>Profile</styles.menuItem>
+                  <styles.menuItem onClick={()=>handleLogout()}>Logout</styles.menuItem>
+                </MenuList>
+              </styles.MenuPopoverContainer>
+            </styles.menuWrapper> */}
+            </>
+          )}
+         
+         
+          {/* <ToolbarButton appearance="primary"   onClick={()=>handleLogout()}>
             {!loginOrLogout ? "Login" : "Logout"}
-          </ToolbarButton>
+          </ToolbarButton> */}
         </styles.buttonWrapper>
       </Drawer>
 
