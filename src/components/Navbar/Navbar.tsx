@@ -77,7 +77,7 @@ React.useEffect(()=>{
   localStorage.getItem("user");
 
   
-  if(user.length>0){
+  if((Object.keys(user).length>0 )){
     setLoginOrLogout(true)
   }
   else{
@@ -205,8 +205,8 @@ React.useEffect(() => {
           ) : (
 
             <>
-              <styles.profileImage  onClick={()=>navigate("/profile")} src={user.profileImage.imageUrl} />
-          
+           {(Object.keys(user).length>0 )&&user.profileImage.imageUrl&&   <styles.profileImage  onClick={()=>navigate("/profile")} src={user.profileImage.imageUrl} />
+          }
             <ToolbarButton appearance="primary" onClick={()=>navigate("/")}>Home</ToolbarButton>
             <ToolbarButton appearance="primary" onClick={()=>handleLogout()}>Logout</ToolbarButton>
         

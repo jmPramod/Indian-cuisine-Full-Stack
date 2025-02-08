@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styles } from "./styles";
 import { useNavigate } from 'react-router-dom';
 import { userLogin } from '../../utils/API.services';
@@ -20,8 +20,9 @@ interface LoginResponse {
 }
 
 const Login: React.FC = () => {
+  
   const navigate = useNavigate();
-    const { setUser } = React.useContext(GlobalContext);
+    const { setUser,user } = React.useContext(GlobalContext);
   const [formData, setFormData] = useState<{ email: string; password: string }>({ email: "", password: "" });
   const [error, setError] = useState<string | null|undefined>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -77,6 +78,11 @@ const Login: React.FC = () => {
       transition: { duration: 1, delay: 1 }, 
     },
   };
+  useEffect(()=>{
+    if((Object.keys(user).length>0 )){
+      navigate("/")
+    }
+  },[user])
   return (
     <motion.div 
     variants={containerVariants}

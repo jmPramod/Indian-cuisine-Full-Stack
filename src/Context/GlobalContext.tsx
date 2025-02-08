@@ -4,7 +4,7 @@ import { CategoryData } from '../types/foodTypes';
 
 export const GlobalContext = createContext<any>(null);
 export const GlobalProvider = ({ children }: any) => {
-   const [user,setUser]=useState([])
+   const [user,setUser]=useState({})
    const [category, setCategory] = useState<CategoryData | null>(null);
 
    const fetchcategory=async()=>{

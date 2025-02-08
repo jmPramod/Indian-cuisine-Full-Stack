@@ -5,11 +5,15 @@ import {
   Stack,
   Persona,
   PersonaSize,
-  mergeStyles
+  mergeStyles,
+  Dialog,
+  DialogType,
+  DialogFooter
 } from '@fluentui/react';
 import { GlobalContext } from '../../Context/GlobalContext';
 import { userUpdate } from '../../utils/API.services';
 import FooterComponent from '../../components/Footer/Footer';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
   _id: string;
@@ -33,8 +37,7 @@ const Profile = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState(user?.profileImage?.imageUrl || '');
   const [loading, setLoading] = useState(false);
-
-  // Ensure `updateUser` is initialized to avoid undefined issues
+const navigate=useNavigate()
   const [updateUser, setUpdateUser] = useState<User>(
     user || {
       _id: '',
@@ -53,9 +56,8 @@ const Profile = () => {
     }
   );
 
-  // Update `updateUser` when `user` changes
   useEffect(() => {
-    if (user) {
+    if (user && Object.keys(user).length > 0) {
       setUpdateUser(user);
     }
   }, [user]);
@@ -119,51 +121,70 @@ const Profile = () => {
     padding: 20,
   });
 
-  return (<>
-  
-  
-    <div className={containerClass}>
-      <Stack tokens={{ childrenGap: 20 }}>
-        <Persona
-          imageUrl={previewImage || updateUser?.profileImage.imageUrl}
-          text={`${updateUser?.firstName || ''} ${updateUser?.lastName || ''}`}
-          secondaryText={updateUser?.email || ''}
-          size={PersonaSize.size72}
-          imageAlt="Profile image"
-        />
+  const dialogContentProps = {
+    type: DialogType.normal,
+    title: 'Login Required',
+    closeButtonAriaLabel: 'Close',
+    subText: 'Please login to access your profile.',
+  };
 
-        {isEditing && (
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-        )}
+  return (
+    <>
+      <div className={containerClass}>
+        {Object.keys(user || {}).length > 0 ? (
+          <Stack tokens={{ childrenGap: 20 }}>
+            <Persona
+              imageUrl={previewImage || updateUser?.profileImage.imageUrl}
+              text={`${updateUser?.firstName || ''} ${updateUser?.lastName || ''}`}
+              secondaryText={updateUser?.email || ''}
+              size={PersonaSize.size72}
+              imageAlt="Profile image"
+            />
 
-        <Stack horizontal tokens={{ childrenGap: 20 }}>
-          <TextField label="First Name" value={updateUser?.firstName || ''} onChange={handleInputChange('firstName')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
-          <TextField label="Last Name" value={updateUser?.lastName || ''} onChange={handleInputChange('lastName')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
-        </Stack>
+            {isEditing && (
+              <input type="file" accept="image/*" onChange={handleImageChange} />
+            )}
 
-        <Stack horizontal tokens={{ childrenGap: 20 }}>
-          <TextField label="Email" value={updateUser?.email || ''} disabled type="email" styles={{ root: { flex: 1 } }} />
-          <TextField label="Phone" value={updateUser?.phone?.toString() || ''} onChange={handleInputChange('phone')} disabled={!isEditing} type="tel" styles={{ root: { flex: 1 } }} />
-        </Stack>
+            <Stack horizontal tokens={{ childrenGap: 20 }}>
+              <TextField label="First Name" value={updateUser?.firstName || ''} onChange={handleInputChange('firstName')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
+              <TextField label="Last Name" value={updateUser?.lastName || ''} onChange={handleInputChange('lastName')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
+            </Stack>
 
-        <TextField label="Address" value={updateUser?.address || ''} onChange={handleInputChange('address')} disabled={!isEditing} multiline rows={3} />
+            <Stack horizontal tokens={{ childrenGap: 20 }}>
+              <TextField label="Email" value={updateUser?.email || ''} disabled type="email" styles={{ root: { flex: 1 } }} />
+              <TextField label="Phone" value={updateUser?.phone?.toString() || ''} onChange={handleInputChange('phone')} disabled={!isEditing} type="tel" styles={{ root: { flex: 1 } }} />
+            </Stack>
 
-        <Stack horizontal tokens={{ childrenGap: 20 }}>
-          <TextField label="State" value={updateUser?.state || ''} onChange={handleInputChange('state')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
-          <TextField label="Country" value={updateUser?.country || ''} onChange={handleInputChange('country')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
-          <TextField label="PIN Code" value={updateUser?.pinCode?.toString() || ''} onChange={handleInputChange('pinCode')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
-        </Stack>
+            <TextField label="Address" value={updateUser?.address || ''} onChange={handleInputChange('address')} disabled={!isEditing} multiline rows={3} />
 
-        {isEditing ? (
-          <PrimaryButton text={loading ? "Saving..." : "Save Changes"} onClick={handleSave} disabled={loading} styles={{ root: { maxWidth: 200, marginTop: 20 } }} />
+            <Stack horizontal tokens={{ childrenGap: 20 }}>
+              <TextField label="State" value={updateUser?.state || ''} onChange={handleInputChange('state')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
+              <TextField label="Country" value={updateUser?.country || ''} onChange={handleInputChange('country')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
+              <TextField label="PIN Code" value={updateUser?.pinCode?.toString() || ''} onChange={handleInputChange('pinCode')} disabled={!isEditing} styles={{ root: { flex: 1 } }} />
+            </Stack>
+
+            {isEditing ? (
+              <PrimaryButton text={loading ? "Saving..." : "Save Changes"} onClick={handleSave} disabled={loading} styles={{ root: { maxWidth: 200, marginTop: 20 } }} />
+            ) : (
+              <PrimaryButton text="Edit Profile" onClick={() => setIsEditing(true)} styles={{ root: { maxWidth: 200, marginTop: 20 } }} />
+            )}
+          </Stack>
         ) : (
-          <PrimaryButton text="Edit Profile" onClick={() => setIsEditing(true)} styles={{ root: { maxWidth: 200, marginTop: 20 } }} />
+          <Dialog
+            hidden={Object.keys(user || {}).length > 0}
+            dialogContentProps={dialogContentProps}
+            modalProps={{
+              isBlocking: true, 
+            }}
+          >
+            <DialogFooter>
+              <PrimaryButton text="Click To Login" onClick={() => {navigate("/login")}}  /> Disabled close button
+            </DialogFooter>
+          </Dialog>
         )}
-      </Stack>
-     
-    </div>
-    <FooterComponent/>
-  </>
+      </div>
+      <FooterComponent />
+    </>
   );
 };
 

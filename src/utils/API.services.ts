@@ -119,11 +119,11 @@ export const userRegister = async (payload: any) => {
 };
 export const createFood = async (payload: any) => {
   try {
-    const token1 = localStorage.getItem('token');
-    let token;
-    if (token1) {
-      token = JSON.parse(token1);
-    }
+    const token = localStorage.getItem('token');
+    // let token;
+    // if (token1) {
+    //   token = (token1);
+    // }
     const res = await axios.post(`${apiUrl}/create-common-food`,  payload,
       {
         headers: {
