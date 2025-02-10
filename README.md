@@ -106,3 +106,6 @@ Pramod J M
 ## License
 ISC
 
+## Swagger API Documentation
+![image](https://github.com/user-attachments/assets/703d2975-0652-4485-9ea1-a1292f9a196e)
+
