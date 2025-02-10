@@ -19,7 +19,6 @@ export const cloudinaryImage=cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECREAT,
 });
 
-// Type declaration for multer-storage-cloudinary (create a .d.ts file if needed)
 interface CloudinaryStorageOptions {
   cloudinary: typeof cloudinary;
   params?: {
@@ -29,7 +28,6 @@ interface CloudinaryStorageOptions {
   };
 }
 
-// Using require with type assertion for CloudinaryStorage
 const CloudinaryStorage = require('multer-storage-cloudinary').CloudinaryStorage as {
   new (options: CloudinaryStorageOptions): multer.StorageEngine;
 };

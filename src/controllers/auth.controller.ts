@@ -82,8 +82,7 @@ const favoriteFood = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     if (action === 'add') {
-      // Check if the favoriteUserId is not already in the favorites list
-      if (!user.favorite.includes(favoriteUserId)) {
+        if (!user.favorite.includes(favoriteUserId)) {
         user.favorite.push(favoriteUserId);
         await user.save();
       }
@@ -152,7 +151,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     let existingImages: ExistingImages = { imageUrl: '', imgPublicId: '' };
     // Check if req.files is an array and has elements
     if (req.files && Array.isArray(req.files) && req.files.length > 0) {
-      const urlPath = req.files[0].path; // No need to cast after type check
+      const urlPath = req.files[0].path; 
       const q = urlPath.split('.')[2].split('/');
       const publicID = q[q.length - 2].concat('/', q[q.length - 1]);
 
@@ -165,8 +164,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
       if (oldData.profileImage.imgPublicId) {
         console.log('oldData.images.imgPublicId', oldData.profileImage.imgPublicId);
 
-        // Use async/await instead of callback for cleaner code
-        try {
+          try {
           const result = await cloudinaryImage.uploader.destroy(oldData.profileImage.imgPublicId);
           console.log('Deleted thumbnail image:', result);
         } catch (error) {
