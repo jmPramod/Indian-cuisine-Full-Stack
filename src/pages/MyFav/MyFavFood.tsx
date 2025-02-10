@@ -16,18 +16,17 @@ interface FoodItem {
   img: string;
 }
 
-// Fluent UI v9 Styling
 const useStyles = makeStyles({
   container: {
     display: "flex",
-    flexDirection: "column", // Stack cards vertically
-    alignItems: "center", // Center the cards
+    flexDirection: "column", 
+    alignItems: "center", 
     padding: "20px",
     gap: "20px",
   },
   card: {
-    width: "100%", // Make card full width
-    maxWidth: "600px", // Limit max width for better readability
+    width: "100%", 
+    maxWidth: "600px", 
     padding: "16px",
     borderRadius: "10px",
     boxShadow: "0 4px 10px rgba(0,0,0,0.1)",

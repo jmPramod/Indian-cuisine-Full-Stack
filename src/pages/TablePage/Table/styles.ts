@@ -84,8 +84,7 @@ export const styles = {
     font-size: large;
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
-    display: flex;
+     display: flex;
     gap: 0.5rem;
     border: none;
     &:hover {
@@ -157,8 +156,7 @@ background-color: var(--grid-header-color);`,
     font-weight: 600;
     color: #1e293b;
     padding: 1rem;
-    /* border-bottom: 2px solid #e2e8f0; */
-  `,
+   `,
 
   tableRow: styled(DataGridRow)`
     transition: background-color 0.2s;
@@ -177,7 +175,6 @@ background-color: var(--grid-header-color);`,
     padding: 1rem;
     color: #475569;
     font-size: 0.9rem;
-    /* border-bottom: 1px solid #e2e8f0; */
   `,
 
   filterTitle: styled(Title3)`

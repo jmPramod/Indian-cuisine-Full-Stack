@@ -10,7 +10,6 @@ import {
   ToastIntent,
 } from "@fluentui/react-components";
 
-// Define the types for props
 interface IntentProps {
   message: string;
   intent: ToastIntent | "progress" | "avatar";

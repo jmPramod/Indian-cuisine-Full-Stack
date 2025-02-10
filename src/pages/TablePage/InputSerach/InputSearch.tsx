@@ -51,7 +51,6 @@ export const MultiselectWithTags = (props: PropsType) => {
   const options = category && category.ingredients;
   const styles = useStyles();
 
-  // Track the input text for filtering
   const [filterText, setFilterText] = React.useState("");
 
   const onSelect: ComboboxProps["onOptionSelect"] = (_, data) => {

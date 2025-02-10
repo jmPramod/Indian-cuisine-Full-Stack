@@ -51,7 +51,7 @@ const stateOptions: IDropdownOption[] = [
   { key: 'West Bengal', text: 'West Bengal' },
 ];
 
-interface IFoodForm {
+interface FoodItem {
   name: string;
   ingredients: string[];
   diet: string;
@@ -87,7 +87,7 @@ const CreateFood: React.FC = () => {
   const { user } = React.useContext(GlobalContext);
   const [previewImage, setPreviewImage] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [formData, setFormData] = useState<IFoodForm>({
+  const [formData, setFormData] = useState<FoodItem>({
     name: '',
     ingredients: [],
     diet: '',
@@ -114,7 +114,7 @@ const CreateFood: React.FC = () => {
     }
   };
 
-  const handleInputChange = (field: keyof IFoodForm, value: string | number) => {
+  const handleInputChange = (field: keyof FoodItem, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 

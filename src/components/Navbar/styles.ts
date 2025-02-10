@@ -16,7 +16,6 @@ export const styles = {
   }>`
     min-height: ${({ $isHomePage }) => ($isHomePage ? " 90px" : " 60px")};
     display: flex;
-    /* background-color: gray; */
     background-color: ${({ $isHomePage }) =>
       $isHomePage ? "transparent" : "gray"};
     align-items: center;
@@ -24,23 +23,14 @@ export const styles = {
     padding: 10px 20px;
     width: 100%;
     margin: 0 auto;
-    /* background-color: transparent; */
-    /* position: fixed; */
-    position: ${({ $isHomePage }) => ($isHomePage ? "absolute" : "static")};
+     position: ${({ $isHomePage }) => ($isHomePage ? "absolute" : "static")};
     z-index: 30;
     color: rgba(0, 0, 0, 0.87);
-    /* transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; */
-    /* box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12); */
     width: 100%;
-    /* background-color: #1976d2; */
-    color: #fff;
+     color: #fff;
 
     @media (max-width: 768px) {
-      /* flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px; */
-      padding: 10px;
+       padding: 10px;
     }
   `,
 logo:styled(FaPizzaSlice)`
@@ -51,17 +41,14 @@ logo:styled(FaPizzaSlice)`
   searchDropdown: styled("div")`
     position: absolute;
     top: 100%;
-    /* left: 0; */
-    width: 100%;
+     width: 100%;
     background: white;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 10;
-    /* max-height: 200px; */
-    max-width: 468px;
+     max-width: 468px;
     margin: 0 auto;
-    /* overflowY: auto; */
   `,
   searchItem: styled("div")`
     color: black;
@@ -99,23 +86,22 @@ logo:styled(FaPizzaSlice)`
     gap: 10px;
 
     @media (max-width: 768px) {
-      display: none; /* Hide menu on mobile */
+      display: none; 
     }
   `,
 
   mobileMenuButton: styled("div")`
-    /* Add this style */
-    display: none; /* Hide by default */
+    display: none;
     color: black;
     @media (max-width: 768px) {
-      display: flex; /* Show on mobile */
+      display: flex; 
       background-color: white;
       border: none;
       cursor: pointer;
       font-size: 18px;
-      /* width: 50px !important; */
+      
       flex-wrap: wrap;
-      /* min-width: 40px !important; */
+     
       padding: 8px 12px;
       border-radius: 7px;
     }
@@ -128,10 +114,7 @@ logo:styled(FaPizzaSlice)`
     border: 1px solid black;
     cursor: pointer;
 
-    @media (max-width: 480px) {
-      /* height: 40px;
-      width: 40px; */
-    }
+
   `,
 
   MenuPopoverContainer: styled(MenuPopover)`
@@ -162,7 +145,6 @@ logo:styled(FaPizzaSlice)`
 
     @media (max-width: 768px) {
       width: auto;
-      /* margin-bottom: 10px; */
     }
 
     @media (max-width: 480px) {

@@ -1,7 +1,7 @@
 export interface FoodItem {
     name: string;
     ingredients: string;
-    diet: string; // Fixing the key with space
+    diet: string; 
     prep_time: number;
     cook_time: number;
     flavor_profile: string;

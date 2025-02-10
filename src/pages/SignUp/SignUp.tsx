@@ -57,20 +57,19 @@ const SignUp: React.FC = () => {
 
       console.log("Form submitted successfully", values);
       const res = await userRegister(data);
-      // Redirect to login page or make API request
       if (res && res.status === 200 && res.data?.token) {
         console.log("User logged in:", res.data);
         setUser(res.data.user);
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.user)); // Convert object to string
-        localStorage.setItem("userType", res.data.user.isAdmin); // Store user type separately
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("userType", res.data.user.isAdmin); 
 
         navigate("/");
       } else {
         setError(res?.error);
       }
       setLoading(false);
-      // navigate("/");
+   
     },
   });
   const containerVariants = {

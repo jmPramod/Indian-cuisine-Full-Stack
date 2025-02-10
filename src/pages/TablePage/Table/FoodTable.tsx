@@ -79,7 +79,6 @@ if(searchParams.get("state")){
   setState(searchParams.get("state")||"")
 }
 },[searchParams])
-  // Sort function
   const handleSort = (columnId: keyof Dish) => {
     const direction = sortColumn === columnId && sortDirection === "asc" ? "desc" : "asc";
     setSortDirection(direction);
@@ -89,8 +88,7 @@ if(searchParams.get("state")){
       let valueA: any = a[columnId];
       let valueB: any = b[columnId];
   
-      // Handle sorting for numeric columns like prep_time, cook_time
-      if (typeof valueA === "string") {
+        if (typeof valueA === "string") {
         valueA = valueA.toLowerCase();
         valueB = valueB.toLowerCase();
       }
@@ -204,7 +202,6 @@ if(searchParams.get("state")){
 
   return (
     <styles.outerContainer>
-      {/* Filter Section */}
       <styles.leftContainer>
         <Title3>Filter Option</Title3>
              <styles.Dropdown 
