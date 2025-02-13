@@ -1,4 +1,5 @@
 import axios from "axios";
+import {  FormData } from "../types/foodTypes";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 // const apiUrl = "http://localhost:4900"
@@ -41,7 +42,7 @@ export const searchFood = async (props: { query: string }) => {
     }
   }
 };
-export const userLogin = async (payload: any) => {
+export const userLogin = async (payload: { email: string, password: string }) => {
   try {
     const res = await axios.post(`${apiUrl}/login`, payload);
     console.log("res", res);
@@ -79,7 +80,7 @@ export const userLogin = async (payload: any) => {
     }
   }
 };
-export const userRegister = async (payload: any) => {
+export const userRegister = async (payload: FormData) => {
   try {
     const res = await axios.post(`${apiUrl}/register`, payload);
     console.log("res", res);
@@ -120,10 +121,7 @@ export const userRegister = async (payload: any) => {
 export const createFood = async (payload: any) => {
   try {
     const token = localStorage.getItem('token');
-    // let token;
-    // if (token1) {
-    //   token = (token1);
-    // }
+    
     const res = await axios.post(`${apiUrl}/create-common-food`,  payload,
       {
         headers: {
@@ -279,7 +277,7 @@ export const getCategory = async () => {
     }
   }
 };
-export const userUpdate = async (payload: any) => {
+export const userUpdate = async (payload: any ) => {
   const user = localStorage.getItem('user');
   let userID;
   if (user) {

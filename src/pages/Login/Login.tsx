@@ -22,7 +22,10 @@ interface LoginResponse {
 const Login: React.FC = () => {
   
   const navigate = useNavigate();
-    const { setUser,user } = React.useContext(GlobalContext);
+
+      const context = React.useContext(GlobalContext);
+      const user = context?.user
+      const setUser=context?.setUser
   const [formData, setFormData] = useState<{ email: string; password: string }>({ email: "", password: "" });
   const [error, setError] = useState<string | null|undefined>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -42,7 +45,7 @@ const Login: React.FC = () => {
       const res = await userLogin(formData) as LoginResponse | undefined; // Ensure type safety
 
       if (res && res.status === 200 && res.data?.token) {
-            setUser(res.data.user)
+        setUser&&setUser(res.data.user)
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user)); // Convert object to string
         localStorage.setItem("userType", res.data.user.isAdmin); // Store user type separately
@@ -79,7 +82,7 @@ const Login: React.FC = () => {
     },
   };
   useEffect(()=>{
-    if((Object.keys(user).length>0 )){
+    if(user&&(Object.keys(user).length>0 )){
       navigate("/")
     }
   },[user])

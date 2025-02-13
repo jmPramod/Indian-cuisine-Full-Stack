@@ -41,7 +41,8 @@ interface PropsType {
 
 export const MultiselectWithTags = (props: PropsType) => {
   const { selectedOptions, setSelectedOptions } = props;
-  const { category } = React.useContext(GlobalContext);
+   const context = React.useContext(GlobalContext);
+   const category=context?.category
   const comboId = useId("combo-multi");
   const selectedListId = `${comboId}-selection`;
 

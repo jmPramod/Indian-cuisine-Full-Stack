@@ -38,6 +38,7 @@ export interface User {
     course: string[];
     flavor_profile: string[];
     diet: string[];
+    ingredients: string[];
   }
   
   export interface Dish {
@@ -54,4 +55,22 @@ export interface User {
     img: string;
     createdBy: string | null;
   }
+  
+  export interface FormData {
+    firstName: string;
+    phone: string;
+    email: string;
+    password: string;
+    confirmPassword?: string;
+  }
+  // export interface UserUpdatePayload {
+  //   firstName: string;
+  //   lastName: string;
+  //   phone: string;
+  //   address: string;
+  //   state: string;
+  //   country: string;
+  //   pinCode: string;
+  //   file?: File;
+  // }
   

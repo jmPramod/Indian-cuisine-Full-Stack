@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   TextField, 
   PrimaryButton, 
@@ -32,14 +32,16 @@ interface User {
 }
 
 const Profile = () => {
-  const { setUser, user } = useContext(GlobalContext);
+    const context = React.useContext(GlobalContext);
+        const user = context?.user
+        const setUser=context?.setUser
   const [isEditing, setIsEditing] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState(user?.profileImage?.imageUrl || '');
   const [loading, setLoading] = useState(false);
 const navigate=useNavigate()
   const [updateUser, setUpdateUser] = useState<User>(
-    user || {
+    {
       _id: '',
       firstName: '',
       lastName: '',
@@ -58,9 +60,16 @@ const navigate=useNavigate()
 
   useEffect(() => {
     if (user && Object.keys(user).length > 0) {
-      setUpdateUser(user);
+      setUpdateUser({
+        ...user,
+        profileImage: {
+          imageUrl: user.profileImage?.imageUrl || '',
+          imgPublicId: user.profileImage?.imgPublicId ?? null, // Ensure it's either string or null
+        },
+      });
     }
   }, [user]);
+  
 
   // Handle input changes safely
   const handleInputChange = (field: keyof User) => 
@@ -99,7 +108,7 @@ const navigate=useNavigate()
     try {
       const response = await userUpdate(formData);
       if (response.status === 200) {
-        setUser(response.data);
+        setUser&&setUser(response.data);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data));
         localStorage.setItem("userType", response.data.isAdmin);

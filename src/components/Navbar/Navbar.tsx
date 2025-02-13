@@ -14,6 +14,7 @@ import { Dismiss24Regular } from "@fluentui/react-icons";
 import { searchFood } from "../../utils/API.services";
 import { Spinner } from "@fluentui/react-components";
 import { GlobalContext } from "../../Context/GlobalContext";
+import { User } from "../../types/foodTypes";
 interface SearchResult {
   _id: string;
   name: string;
@@ -21,7 +22,10 @@ interface SearchResult {
 }
 
 const Navbar: React.FC = () => {
-  const { user,setUser } = React.useContext(GlobalContext);
+  
+  const context = React.useContext(GlobalContext);
+  const user = context?.user
+  const setUser= context?.setUser
   const [loginOrLogout, setLoginOrLogout] = React.useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
   const[admin,setAdmin]=React.useState(false)
@@ -69,7 +73,7 @@ const handleLogout=()=>{
   localStorage.removeItem("token");
   localStorage.removeItem("user"); 
   localStorage.removeItem("userType"); 
-  setUser([])
+  setUser&&setUser(null)
 
 }
 React.useEffect(()=>{
@@ -77,7 +81,7 @@ React.useEffect(()=>{
   localStorage.getItem("user");
 
   
-  if((Object.keys(user).length>0 )){
+  if(user&&(Object.keys(user).length>0 )){
     setLoginOrLogout(true)
   }
   else{
@@ -87,15 +91,15 @@ React.useEffect(()=>{
 },[user])
 React.useEffect(() => {
   const token = localStorage.getItem("token");
-  let u:any = localStorage.getItem("user");
-  if(u){
+  let user1 = localStorage.getItem("user");
+  if(user1){
+    let u: User | null =  JSON.parse(user1)
 
-    u=JSON.parse(u)
-    console.log(u.isAdmin);
+    console.log(u&&u.isAdmin);
     
-    setAdmin(u.isAdmin=="admin"?true:false)
+    setAdmin(u&&u.isAdmin=="admin"?true:false)
   }
-  console.log(token,user,u);
+  console.log(token,user);
   
   if (token) {
     
@@ -166,7 +170,7 @@ React.useEffect(() => {
           ) : (
             <styles.menuWrapper>
               <MenuTrigger>
-              {user.profileImage&&  <styles.profileImage src={user.profileImage.imageUrl} />}
+              {user&&user.profileImage&&  <styles.profileImage src={user.profileImage.imageUrl} />}
               </MenuTrigger>
 
               <styles.MenuPopoverContainer>
@@ -205,7 +209,7 @@ React.useEffect(() => {
           ) : (
 
             <>
-           {(Object.keys(user).length>0 )&&user.profileImage.imageUrl&&   <styles.profileImage  onClick={()=>navigate("/profile")} src={user.profileImage.imageUrl} />
+           {user&&(Object.keys(user).length>0 )&&user?.profileImage?.imageUrl&&   <styles.profileImage  onClick={()=>navigate("/profile")} src={user.profileImage.imageUrl} />
           }
             <ToolbarButton appearance="primary" onClick={()=>navigate("/")}>Home</ToolbarButton>
             <ToolbarButton appearance="primary" onClick={()=>handleLogout()}>Logout</ToolbarButton>

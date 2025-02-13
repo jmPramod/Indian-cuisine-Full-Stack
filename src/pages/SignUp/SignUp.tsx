@@ -8,15 +8,10 @@ import { motion } from "framer-motion";
 import { userRegister } from "../../utils/API.services";
 import { GlobalContext } from "../../Context/GlobalContext";
 import { ToastMsg } from "../../components/ToastMsg/ToastMsg";
+import { FormData } from "../../types/foodTypes";
 
 // Define Form Data Type
-interface FormData {
-  firstName: string;
-  phone: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+
 
 // Yup Validation Schema
 const validationSchema = Yup.object({
@@ -37,7 +32,9 @@ const validationSchema = Yup.object({
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
-  const { setUser } = React.useContext(GlobalContext);
+   const context = React.useContext(GlobalContext);
+  
+  const setUser=context?.setUser
   const [error, setError] = useState<string | null | undefined>(null);
 
   const [loading, setLoading] = useState(false); // Initialize Formik
@@ -59,7 +56,7 @@ const SignUp: React.FC = () => {
       const res = await userRegister(data);
       if (res && res.status === 200 && res.data?.token) {
         console.log("User logged in:", res.data);
-        setUser(res.data.user);
+        setUser&&setUser(res.data.user);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
         localStorage.setItem("userType", res.data.user.isAdmin); 

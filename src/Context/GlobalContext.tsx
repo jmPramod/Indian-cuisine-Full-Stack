@@ -1,10 +1,19 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { getCategory } from '../utils/API.services';
-import { CategoryData } from '../types/foodTypes';
+import { CategoryData, User } from '../types/foodTypes';
+interface GlobalContextType {
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  category: CategoryData | null;
+  setCategory: React.Dispatch<React.SetStateAction<CategoryData | null>>;
+}
 
-export const GlobalContext = createContext<any>(null);
-export const GlobalProvider = ({ children }: any) => {
-   const [user,setUser]=useState({})
+export const GlobalContext = createContext<GlobalContextType|null>(null);
+interface GlobalProviderProps {
+  children: ReactNode;
+}
+export const GlobalProvider = ({ children }: GlobalProviderProps) => {
+  const [user, setUser] = useState<User | null>(null);
    const [category, setCategory] = useState<CategoryData | null>(null);
 
    const fetchcategory=async()=>{

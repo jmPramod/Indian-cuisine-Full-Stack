@@ -84,7 +84,8 @@ const courseOptions: IDropdownOption[] = [
 
 const CreateFood: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = React.useContext(GlobalContext);
+  const context = React.useContext(GlobalContext);
+  const user = context?.user
   const [previewImage, setPreviewImage] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [formData, setFormData] = useState<FoodItem>({
@@ -195,7 +196,7 @@ const dropdownStyles = {
     } else if (user&&(Object.keys(user).length > 0) && user.isAdmin !== "admin") {
       console.log("one1");
       setShowModal(true); 
-    } else if (Object.keys(user).length == 0) {
+    } else if (user&&Object.keys(user).length == 0) {
       console.log("one2");
       setShowModal(true); 
     }  

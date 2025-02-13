@@ -32,8 +32,9 @@ interface Dish {
 
 const FoodTable: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const { category } = React.useContext(GlobalContext);
-  const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
+  const context = React.useContext(GlobalContext);
+     const category=context?.category
+   const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
 
   const [region, setRegion] = React.useState("");
   const [state, setState] = React.useState("");
